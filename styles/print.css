@@ -1,0 +1,5 @@
+@page {margin:2cm}
+body {padding:0 15px}
+
+#header, #footer {display:none}
+#content {padding-bottom:77px}

@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Password Protected Area"
+AuthUserFile /home/eventoc1/public_html/htpasswd/.htpasswd
+Require valid-user
