@@ -19,7 +19,7 @@ $r = mysqli_fetch_assoc($ress);{
 
 <head>
   <meta charset="UTF-8">
-  <title>Multiple Image Slider</title>
+  <title>SignUp Page</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
@@ -30,7 +30,7 @@ $r = mysqli_fetch_assoc($ress);{
 
 <meta charset="utf-8">
 
-        <title>home page</title>
+        <title>SignUp Page</title>
 
         <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on Eventock and receive a $100 cash back rebate.">
 
@@ -79,75 +79,7 @@ $r = mysqli_fetch_assoc($ress);{
     
 
     <div id="container" class="border-box">
-<header id="header" class="all-trans">
-
-        <div class="container">
-
-          
-
-          <p id="navTrigger">
-
-            <span class="bar all-trans">&nbsp;</span>
-
-            <span class="bar all-trans">&nbsp;</span>
-
-            <span class="bar all-trans">&nbsp;</span>
-
-            <a href="javascript:void(0)">&nbsp;</a>
-
-          </p>
-
-          
-
-          <div id="logo" class="onLeft">
-
-            <a href="index.php" title="Eventock.com">
-
-              <img src="images/11.png" alt="Eventock.com" />
-
-            </a>
-
-          </div>
-
-          
-
-          <div id="navigations">
-
-            <div class="onRight metamenu">
-
-             
-
-
-
-            </div>
-
-            <nav class="onRight" id="navigation">
-
-              <ul>
-
-                <li><a href="#!">About Us</a></li>
-
-                <li><a href="#!">Scholarship</a></li>
-
-                <li><a href="#!">Blog</a></li>
-
-                <li><a href="#!">Terms</a></li>
-
-                <li><a href="#!">Privacy</a></li>
-
-                <li><a href="#!">Contact Us</a></li>
-
-              </ul>
-
-            </nav>
-
-          </div>
-
-          
-
-        </div>
-
-      </header>
+<?php include "header.php"; ?>
 
   
 <!--<p>Suggestions: <span id="txtHint"></span></p> -->
@@ -204,39 +136,65 @@ $r = mysqli_fetch_assoc($ress);{
     </div>
   </div>
 
-          
-<form  method="post" action="process2.php">
-  <table style="margin-left: 20%;" width="60%" border="1" cellspacing="10" cellpadding="10">
-  <tr>
-    <?php if($r['sub_cat']=="true"){ ?>
-      <p style="color:red" id="demo"></p>
-    <td> <select name="sub_cat" id="txtHint" style="width:100%; height:200px;" multiple required>
+      
+<form action="process2.php" method="post">
+
+              <fieldset>
+
+                <?php if($r['sub_cat']=="true"){ ?>
+
+                <div class="cols">
+
+                  <div class="form-col">
+
+                    <label>Sub-category*</label>
+
+                    <select name="sub_cat" id="txtHint" style="width: 100%;height: 100px" multiple required>
 
   <option> </option>
   
-</select></td>
-   <?php } ?>
-  </tr>
- 
-</table>
+</select>
 
-  <p>
+                  </div><?php } ?>
+
+
+                  <?php if($r['pname']=="true"){ ?>
+
+                  <div class="form-col">
+
+                    <label>Profile Name*</label>
+
+                    <input type="text"  name="pname" placeholder="Profile Name" id="pname" required/>
+
+                  </div><?php } ?>
+
+                  <div class="clearfix">
+                    <div class="clearfix">
+                      <div class="clearfix">
+
+                    <input type="submit" name="Continue" value="Continue" style="margin-top: 10px;margin-bottom: 10px;" onclick="myFunction()" />
+
+                  </div><?php } ?>
+
+                </div>
+
+              </fieldset>
+
+            </form>
+
+
+<div class="clearfix">
+  <div class="clearfix">
+
+
+ 
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.5/slick.min.js'></script>
     
     
     
-    <script  src="js/index.js"></script>  </p>
-  <p>&nbsp;</p>
-   <?php if($r['pname']=="true"){ ?>
-    <p style="color:red" id="demo1"></p>
-    <input type="text" name="pname" placeholder="Profile Name" id="pname" style="width:60%; margin-left: 20%;" required>
-  <?php } ?>
-
-<input type="submit" name="Continue" value="Continue" onclick="myFunction()" style="width:15%; height:40px; margin-left: 65%; margin-top: 25px;">
-
-</form>
-<?php } ?>
+    <script  src="js/index.js"></script>  
+  
               
 
               

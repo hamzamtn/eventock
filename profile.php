@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 include "connect.php";
@@ -23,7 +24,7 @@ $res = mysqli_query($connection, $ReadSql);
 
         <meta charset="utf-8">
 
-        <title>contact page</title>
+        <title>Profile</title>
 
         <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on RentDeals and receive a $100 cash back rebate.">
 
@@ -66,6 +67,7 @@ $res = mysqli_query($connection, $ReadSql);
   margin: auto;
   text-align: center;
   font-family: arial;
+  margin-bottom: 23px;
 }
 
 .title {
@@ -136,18 +138,25 @@ button:hover, a:hover {
 
 						
 
-						<form action="edit_profile.php" method="post">
+						
 
 							<fieldset>
 
 								
 <?php $r = mysqli_fetch_assoc($res);
   if(!empty($r)){ ?>
-<div class="card">
-  <img id="profileImage" src="uploads/<?php echo $r['image']; ?>" alt="John" style="width:100%">
-  <a href="https://www.google.com/"> <button id="btn" > </button></a>
-  <input id="imageUpload" type="file" 
-       name="profile_photo" placeholder="Photo" required="" capture>
+  	<div class="card">
+<?php
+  	if(!empty($r['image'])){ ?>
+
+  <img id="profileImage" src="uploads/<?php echo $r['image']; ?>" alt="Image of" style="width:100%">
+  <?php }?>
+
+  <?php
+  	if(empty($r['image'])){ ?>
+
+  <img id="profileImage" src="uploads/default.png" alt="Image of" style="width:100%">
+  <?php }?>
 
        
 <h1 style="text-transform: uppercase;"><?php echo $r['fname']." ".$r['lname']; ?></h1>
@@ -161,12 +170,24 @@ button:hover, a:hover {
     <a href="#"><i ></i></a>  
     <a href="#"><i ></i></a> 
  </div>
- <p> <a href="#"><button>Edit Profile</button> </a></p>
+ <p> <a href="show_image.php"><button>Gallery</button> </a></p>
+ <p> <a href="services.php"><button>Services</button> </a></p>
+ <p> <a href="edit_profile.php"><button>Edit Profile</button> </a></p>
+ <p> <a href="add_services.php"><button>Add services</button> </a></p>
+  
 </div><?php }?>
+
+
+
+<div class="clearfix">
+
+										
+
+									</div>
 
 							</fieldset>
 
-						</form>
+						
 
 					</div>
 
@@ -274,7 +295,7 @@ button:hover, a:hover {
 
 						<div class="copyright">
 
-							<p>&copy; 2017, RentDeals.com</p>
+							<p>&copy; 2017, Eventock.com</p>
 
 						</div>
 

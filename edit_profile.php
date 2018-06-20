@@ -6,22 +6,6 @@ session_start();
 
 $email=$_SESSION['login_user'];
  
- if(isset($_SESSION['fmsg1'])){ 
- echo $_SESSION['fmsg1'];
- }  
- unset($_SESSION['fmsg1']);
-
-
-if(isset($_SESSION['smsg'])){
-  echo $_SESSION['smsg'];
-  session_destroy();
-  }
-  unset($_SESSION['smsg']);
-  
- if(isset($_SESSION['fmsg'])){ 
- echo $_SESSION['fmsg'];
- }  
- unset($_SESSION['fmsg']);
 
 if (isset($_REQUEST['delimage']))
 {
@@ -54,464 +38,686 @@ $r = mysqli_fetch_assoc($ress);{
 ?>
 
 
+<!DOCTYPE html>
 
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Untitled Document</title>
+<html lang="en">    
+
+	<head>
 
         <meta charset="utf-8">
 
-        <title>home page</title>
+        <title>Edit Profile</title>
 
-        <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on Eventock and receive a $100 cash back rebate.">
+        <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on RentDeals and receive a $100 cash back rebate.">
 
-    <meta name="Keywords" content="Houston apartments, Houston apartment, Houston apartment rental, Houston apartment rentals, Houston texas apartments, Houston apartments for rent, Houston tx apartments, apartments in houston, apartments in houston texas, apartment in houston texas, houston texas apartment, apartment in houston, houston tx apartment, apartments in houston tx" />
+		<meta name="Keywords" content="Houston apartments, Houston apartment, Houston apartment rental, Houston apartment rentals, Houston texas apartments, Houston apartments for rent, Houston tx apartments, apartments in houston, apartments in houston texas, apartment in houston texas, houston texas apartment, apartment in houston, houston tx apartment, apartments in houston tx" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-    <link rel="stylesheet" href="styles/webfonts.css">
+		<link rel="stylesheet" href="styles/webfonts.css">
 
-    <link rel="stylesheet" href="styles/oocss.css">
+		<link rel="stylesheet" href="styles/oocss.css">
 
-    <link rel="stylesheet" href="javascript/plugins/fancySelect/fancySelect.css">
+		<link rel="stylesheet" href="styles/main.css">
 
-    <link rel="stylesheet" href="javascript/plugins/flexslider/flexslider.css">
+		<link rel="stylesheet" href="styles/print.css" media="print">
 
-    <link rel="stylesheet" href="styles/main.css">
+		<link rel="stylesheet" href="styles/plugin.modifications.css">
 
-    <link rel="stylesheet" href="styles/print.css" media="print">
+		<link rel="stylesheet" href="styles/responsive.css">
 
-    <link rel="stylesheet" href="styles/plugin.modifications.css">
+		
 
-    <link rel="stylesheet" href="styles/responsive.css">
+		<link rel="icon" href="favicon.ico">
 
-    
+		<!--[if IE]>
 
-    <link rel="icon" href="favicon.ico">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <!--[if IE]>
+			<link rel="SHORTCUT ICON" href="favicon.ico"/>
 
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 
-      <link rel="SHORTCUT ICON" href="favicon.ico"/>
-
-      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-
-    <![endif]-->
+		<![endif]-->
 
 <script src="https://use.fontawesome.com/83c749bc99.js"></script>
 
+    </head>
 
-</head>
+    <body id="contactPage"> 
 
-<body id="homePage">
-  <p id="skipLink"><a href="#content">Skip navigation</a></p>
+		<p id="skipLink"><a href="#content">Skip navigation</a></p>
 
-    
+		
 
-    <div id="container" class="border-box">
-<?php include "login_header.php"; ?>
-      <section id="banner">
+		<div id="container" class="border-box">
 
-        <img src="images/bg.png" alt="banner1"  class="bannerImg" />
-
-        <div class="banner-content">
-
-     <?php     if(isset($_SESSION['smsg'])){
-  echo $_SESSION['smsg'];
-  session_destroy();
-  }
-  unset($_SESSION['smsg']);
-  
- if(isset($_SESSION['fmsg'])){ 
- echo $_SESSION['fmsg'];
- }  
- unset($_SESSION['fmsg']); ?>
-
-         <form name="form1" method="post" action="edit_process.php" enctype="multipart/form-data">
-<table width="60%" height="400px" border="1" cellspacing="10" cellpadding="10">
-
-
-<?php if($select['image'] !=""){ ?>
-  <tr>
-    <td><img style="height:150px; width: 200px;" src="uploads/<?php  echo $select['image'];  ?>"></td>
-    <td><button type="button" id="del" onclick="location.href='/edit_profile.php?delimage=true';">Delete Image</button></td>
-  </tr><?php } ?>
-
-
-
-  <tr>
-<?php if($r['fname']=="true"){ ?>
-
-    <td><p style="color:red" id="demo"></p><input type="text" name="fname" id="fname" placeholder="First Name" onkeypress="Validate()" style="width: 100%; height: 100%;" value="<?php echo $select['fname']; ?>" <?php if($rs['fname']=="true"){ echo "required";} ?> ></td>
+		
 
-  <?php } ?>
+			<?php include "login_header.php"; ?>
 
-  <?php if($r['lname']=="true"){ ?>
+			
 
-    <td><p style="color:red" id="demo1"></p><input type="text" name="lname" id="lname" placeholder="Last Name" style="width: 100%; height: 100%;" value="<?php  echo $select['lname'];  ?>" <?php if($rs['lname']=="true"){ echo "required";} ?> ></td>
- <?php } ?>
+			<section id="content">
 
-  </tr>
-  <tr>
-    <?php if($r['email']=="true"){ ?>
-    <td><p style="color:red" id="demo2"></p><input type="text" name="email" id="email" placeholder="Email"  style="width: 100%; height: 100%;" value="<?php  echo $select['email'];  ?>" <?php if($rs['email']=="true"){ echo "required";} ?> ></td>
-<?php } ?>
-    <?php if($r['phone']=="true"){ ?>
-    <td><p style="color:red" id="demo3"></p><input type="text" name="phone" id="phone" onkeypress="return validatenumerics(event)" placeholder="Phone" style="width: 100%; height: 100%;" value="<?php  echo $select['phone']; ?>" <?php if($rs['phone']=="true"){ echo "required";} ?> ></td>
-    <?php } ?>
-  </tr>
-  <tr>
-  
-  </tr>
-  <tr>
+				<div class="container">
 
+					<div class="contact-section">
 
-    <?php if($r['city']=="true"){ ?>
-    <td><p style="color:red" id="demo6"></p><input type="text" name="city" id="city" placeholder="State,city" style="width: 100%; height: 100%;" value="<?php  echo $select['city'];  ?>"  <?php if($rs['city']=="true"){ echo "required";} ?> ></td>
-    <?php } ?>
+						
 
-   
+							
 
+						<form name="form1" action="edit_process.php" method="post" enctype="multipart/form-data">
 
-    <?php if($r['cat']=="true"){ ?>
-    <td><p style="color:red" id="demo7"></p><select name="cat" id="cat" style="width: 100%;" <?php if($rs['cat']=="true"){ echo "required";} ?> >
-      <option value="0">Please select one category </option>
-	  <option><?php echo $rc['cate_name']; ?></option>
-       <?php 
-    while($rc = mysqli_fetch_assoc($rec)){
-    ?>
-      <option><?php echo $rc['cate_name']; ?></option>
-      <?php } ?>
-    </select></td>
-    <?php } ?>
-    
-  </tr>
-   <tr>
-    <?php if($r['promocode']=="true"){ ?>
-    <td><p style="color:red" id="demo8"></p><input type="text" name="promo" id="promo" placeholder="Promocode" style="width: 100%; height: 100%;" value="<?php  echo $select['promocode'];  ?>" <?php if($rs['promocode']=="true"){ echo "required";} ?>  ></td>
-    <?php } ?>
+							<fieldset>
+								<p class="legend">Edit Profile <span style="color:red"> <?php if(isset($_SESSION['s'])){ echo $_SESSION['s'];}unset($_SESSION['s']);
+								if(isset($_SESSION['f'])){ echo $_SESSION['f']; } unset($_SESSION['f']); ?> </span>  </p>
 
+								<?php if($select['image'] !=""){ ?>
 
-    <?php if($r['pname']=="true"){ ?>
-    <td><p style="color:red" id="demo8"></p><input type="text" name="pname" id="pname" placeholder="Profile Name" style="width: 100%; height: 100%;" value="<?php  echo $select['pname'];  ?>" <?php if($rs['pname']=="true"){ echo "required";} ?>  ></td>
-    <?php } ?>
-  </tr>
-  
-     <tr>
-    <?php if($r['dob']=="true"){ ?>
-    <td><p style="color:red" id="demo9"></p><input type="date" name="dob" id="dob" placeholder="Date of birth" style="width: 100%; height: 100%;" value="<?php  echo $select['dob'];  ?>" <?php if($rs['dob']=="true"){ echo "required";} ?>  ></td>
-    <?php } ?>
+								<div class="cols">
 
+									<div class="form-col">
 
-    <?php if($r['work_desc']=="true"){ ?>
-    <td><p style="color:red" id="demo10"></p><input type="text" name="wd" id="wd" placeholder="Work description" style="width: 100%; height: 100%;" value="<?php  echo $select['work_desc'];  ?>" <?php if($rs['work_desc']=="true"){ echo "required";} ?>  ></td>
-    <?php } ?>
-  </tr>
+										<label>Profile Image</label>
+										<img  src="uploads/<?php  echo $select['image'];  ?>">
 
- 
-  <tr>
-  
-    
-    <td><input type="file" name="image"></td>
-    
-    
-  </tr>
-  
-  <tr>
-     <?php } ?>
-  <?php } ?>
-   <?php } ?>
-    <td colspan="2"><div align="center">
-    <input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:200px">
-      <input type="submit" name="Signup" value="Update" onclick="myFunction()" style="width:200px">
-    </div></td>
-  </tr>
-  </table>
-</form>
+										<input type="button" value="Delete Image" id="del" style="width:150px;color: #fff;background: #004c83;" onclick="location.href='/edit_profile.php?delimage=true';" />
 
-          
+									</div><?php } ?>
 
-        </div>
+								
 
-      </section>
+									<?php if($r['fname']=="true"){ ?>
 
+									<div class="form-col">
 
+										<label>First Name</label>
 
-<section id="content">
+										<input type="text"  name="fname" id="fname" placeholder="First Name"  value="<?php echo $select['fname']; ?>" />
 
-         
-        
+									</div> <?php } ?>
 
-      </section>
+									<?php if($r['lname']=="true"){ ?>
 
+									<div class="form-col">
 
-<footer id="footer">  
+										<label>Last Name</label>
 
-      <div class="container">
+										<input type="text" name="lname" id="lname" placeholder="Last Name"  value="<?php  echo $select['lname'];  ?>" />
 
-        <div class="footer-links">
+									</div><?php } ?>
 
-          <ul>
+									
 
-            <li>
+									 <?php if($r['email']=="true"){ ?>
+									<div class="form-col">
 
-              <a href="#!">About Us</a>
+										<label>Email</label>
 
-            </li>                                                            
+										<input type="text"  name="email" id="email" placeholder="Email" value="<?php  echo $select['email'];  ?>" />
 
-            <li>
+									</div><?php } ?>
 
-              <a href="#!">Scholorship</a>
 
-            </li>
 
-            <li>
 
-              <a href="#!">Blog</a>
 
-            </li>
+									<?php if($r['phone']=="true"){ ?>
+									<div class="form-col">
 
-            <li>
+										<label>Phone number</label>
 
-              <a href="#!">Terms</a>
+										<input type="text"  name="phone" id="phone" onkeypress="return validatenumerics(event)" placeholder="Phone" value="<?php  echo $select['phone']; ?>" />
 
-            </li>
+									</div><?php } ?>
 
-            <li>
 
-              <a href="#!">Privacy</a>
+									<?php if($r['city']=="true"){ ?>
+									<div class="form-col">
 
-            </li>
+										<label>City</label>
 
-            <li>
+										<input type="text"  name="city" id="city" placeholder="State,city" value="<?php  echo $select['city'];  ?>" />
 
-              <a href="#!">Contact Us</a>
+									</div><?php } ?>
 
-            </li> 
 
-          </ul>
+									<?php if($r['cat']=="true"){ ?>
+									<div class="form-col">
 
-        </div>
+										<label>Category </label>
 
-        <div class="social">
+										<input type="text"  name="cat" id="cat" placeholder="Category" value="<?php  echo $select['cat'];  ?>" />
 
-          <ul>
+									</div><?php } ?>
 
-            <li class="">
 
-              <a href="#!"><i class="fa fa-facebook" aria-hidden="true"></i>
+									<?php if($r['promocode']=="true"){ ?>
+									<div class="form-col">
 
-</a>
+										<label>Profile Name </label>
 
-            </li>
+										<input type="text" name="pname" id="pname" placeholder="Profile Name" value="<?php  echo $select['pname'];  ?>" />
 
-            <li class=" ">
+									</div><?php } ?>
 
-              <a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i>
 
-</a>
 
-            </li>
+									<div class="form-col">
 
-            <li class=" ">
+										<label>Select Image</label>
 
-              <a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i>
+										<input type="file" name="image" />
 
-</a>
+									</div>
+									 <?php } ?>
+  									 <?php } ?>
+  									 <?php } ?>
 
-            </li>
+									<div class="clearfix">
 
-            <li class=" ">
+										<input type="submit" />
+										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:150px;color: #fff;background: #004c83; margin-left: 50px"/>
 
-              <a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i>
+									</div>
+									<!--
 
-</a>
+									<div class="clearfix">
 
-            </li>
+										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:200px;color: #fff;background: #004c83;">
 
-            <li class=" ">
+									</div>-->
 
-              <a href="#!"><i class="fa fa-instagram" aria-hidden="true"></i>
+								</div>
 
-</a>
+							</fieldset>
 
-            </li>
+						</form>
 
-          </ul>
+					</div>
 
-        </div>
+				</div>
 
-        <div class="copyright">
+			</section>
 
-          <p>&copy; 2017, Eventock.com</p>
+		</div>	
 
-        </div>
+				<footer id="footer">	
 
-      </div>
+					<div class="container">
 
-    </footer>
+						<div class="footer-links">
 
-</body>
+							<ul>
+
+								<li>
+
+									<a href="#!">About Us</a>
+
+								</li>                                                            
+
+								<li>
+
+									<a href="#!">Scholorship</a>
+
+								</li>
+
+								<li>
+
+									<a href="#!">Blog</a>
+
+								</li>
+
+								<li>
+
+									<a href="#!">Terms</a>
+
+								</li>
+
+								<li>
+
+									<a href="#!">Privacy</a>
+
+								</li>
+
+								<li>
+
+									<a href="#!">Contact Us</a>
+
+								</li> 
+
+							</ul>
+
+						</div>
+
+						<div class="social">
+
+							<ul>
+
+								<li class="">
+
+									<a href="#!"><i class="fa fa-facebook" aria-hidden="true"></i>
+
+		</a>
+
+								</li>
+
+								<li class=" ">
+
+									<a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i>
+
+		</a>
+
+								</li>
+
+								<li class=" ">
+
+									<a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i>
+
+		</a>
+
+								</li>
+
+								<li class=" ">
+
+									<a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i>
+
+		</a>
+
+								</li>
+
+								<li class=" ">
+
+									<a href="#!"><i class="fa fa-instagram" aria-hidden="true"></i>
+
+		</a>
+
+								</li>
+
+							</ul>
+
+						</div>
+
+						<div class="copyright">
+
+							<p>&copy; 2017, Eventock.com</p>
+
+						</div>
+
+					</div>
+
+				</footer>
+
+		
+
+		<div id="signIn-popup" class="popup">
+
+			<div class="inner">
+
+				<div class="close">&nbsp;</div>
+
+				<h2>Sign In</h2>
+
+				<ul class="tabs clearfix">
+
+					<li class="active opacity-trans"><a href="#tab-content1a">Renter</a></li>
+
+					<li class="opacity-trans"><a href="#tab-content2a">Agent</a></li>
+
+					<li class="opacity-trans"><a href="#tab-content3a">Manager</a></li>
+
+				</ul>
+
+				<div id="tab-content1a" class="tab-content first">
+
+					<form action="action.php" method="post">
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Email / Username" />
+
+						</div>
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Password" />
+
+						</div>
+
+						<p id="forgotPass"><a href="lost-password.html">Forgot Password?</a></p>
+
+						<p id="signup-switcher">Don't have an account? <a href="#!">Sign up</a></p>
+
+						<div class="submit-row">
+
+							<input type="submit" value="Sign In" />
+
+						</div>
+
+						<div class="social-section">
+
+							<p>Or Connect With</p>
+
+							<ul>
+
+								<li class="fb"><a href="#!"><mark class="opacity-trans"></mark><span class="opacity-trans"></span></a></li>
+
+								<li class="gplus"><a href="#!"><mark class="opacity-trans"></mark><span class="opacity-trans"></span></a></li>
+
+							</ul>
+
+						</div>
+
+					</form>
+
+				</div>
+
+				<div id="tab-content2a" class="tab-content">
+
+					<form action="action.php" method="post">
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Email / Username" />
+
+						</div>
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Password" />
+
+						</div>
+
+						<p id="forgotPass"><a href="password.html">Forgot Password?</a></p>
+
+						<p id="signup-switcher">Don't have an account? <a href="#!">Sign up</a></p>
+
+						<div class="submit-row">
+
+							<input type="submit" value="Sign In" />
+
+						</div>
+
+						<div class="social-section">
+
+							<p>Or Connect With</p>
+
+							<ul>
+
+								<li class="fb"><a href="#!"><mark class="opacity-trans"></mark><span class="opacity-trans"></span></a></li>
+
+								<li class="gplus"><a href="#!"><mark class="opacity-trans"></mark><span class="opacity-trans"></span></a></li>
+
+							</ul>
+
+						</div>
+
+					</form>
+
+				</div>
+
+				<div id="tab-content3a" class="tab-content">
+
+					<form action="action.php" method="post">
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Email / Username" />
+
+						</div>
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Password" />
+
+						</div>
+
+						<p id="forgotPass"><a href="password.html">Forgot Password?</a></p>
+
+						<p id="signup-switcher">Don't have an account? <a href="#!">Sign up</a></p>
+
+						<div class="submit-row">
+
+							<input type="submit" value="Sign In" />
+
+						</div>
+
+						<div class="social-section">
+
+							<p>Or Connect With</p>
+
+							<ul>
+
+								<li class="fb"><a href="#!"><mark class="opacity-trans"></mark><span class="opacity-trans"></span></a></li>
+
+								<li class="gplus"><a href="#!"><mark class="opacity-trans"></mark><span class="opacity-trans"></span></a></li>
+
+							</ul>
+
+						</div>
+
+					</form>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div id="signUp-popup" class="popup">
+
+			<div class="inner">
+
+				<div class="close">&nbsp;</div>
+
+				<h2>Sign Up</h2>
+
+				<ul class="tabs clearfix">
+
+					<li class="active opacity-trans"><a href="#tab-content1b">Renter</a></li>
+
+					<li class="opacity-trans"><a href="#tab-content2b">Agent</a></li>
+
+					<li class="opacity-trans"><a href="#tab-content3b">Manager</a></li>
+
+				</ul>
+
+				<div id="tab-content1b" class="tab-content">
+
+					<form action="action.php" method="post">
+
+						<div class="form-row">
+
+							<input type="text" placeholder="First Name*" required="required" />
+
+						</div>
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Last Name*" required="required" />
+
+						</div>
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Email*" required="required" />
+
+						</div>
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Password*" required="required" />
+
+						</div>
+
+						<p id="signin-switcher">Already a member? <a href="#!">Sign In</a></p>
+
+						<div class="submit-row">
+
+							<input type="submit" value="Sign In" class="opacity-trans" />
+
+						</div>
+
+						<p class="terms">By Registring I accept the terms of use.</p>
+
+						<div class="social-section">
+
+							<p>Or Connect With</p>
+
+							<ul>
+
+								<li class="fb"><a href="#!"><mark class="opacity-trans"></mark><span class="opacity-trans"></span></a></li>
+
+								<li class="gplus"><a href="#!"><mark class="opacity-trans"></mark><span class="opacity-trans"></span></a></li>
+
+							</ul>
+
+						</div>
+
+					</form>
+
+				</div>
+
+				<div id="tab-content2b" class="tab-content first">
+
+					<form action="action.php" method="post">
+
+						<div class="form-row">
+
+							<input type="text" placeholder="First Name*" required="required" />
+
+						</div>
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Last Name*" required="required" />
+
+						</div>
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Email*" required="required" />
+
+						</div>
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Password*" required="required" />
+
+						</div>
+
+						<p id="signin-switcher">Already a member? <a href="#!">Sign In</a></p>
+
+						<div class="submit-row">
+
+							<input type="submit" value="Sign In" />
+
+						</div>
+
+						<p class="terms">By Registring I accept the terms of use.</p>
+
+						<div class="social-section">
+
+							<p>Or Connect With</p>
+
+							<ul>
+
+								<li class="fb"><a href="#!"><mark class="opacity-trans"></mark><span class="opacity-trans"></span></a></li>
+
+								<li class="gplus"><a href="#!"><mark class="opacity-trans"></mark><span class="opacity-trans"></span></a></li>
+
+							</ul>
+
+						</div>
+
+					</form>
+
+				</div>
+
+				<div id="tab-content3b" class="tab-content">
+
+					<form action="action.php" method="post">
+
+						<div class="form-row">
+
+							<input type="text" placeholder="First Name*" required="required" />
+
+						</div>
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Last Name*" required="required" />
+
+						</div>
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Email*" required="required" />
+
+						</div>
+
+						<div class="form-row">
+
+							<input type="text" placeholder="Password*" required="required" />
+
+						</div>
+
+						<p id="signin-switcher">Already a member? <a href="#!">Sign In</a></p>
+
+						<div class="submit-row">
+
+							<input type="submit" value="Sign In" class="opacity-trans" />
+
+						</div>
+
+						<p class="terms">By Registring I accept the terms of use.</p>
+
+						<div class="social-section">
+
+							<p>Or Connect With</p>
+
+							<ul>
+
+								<li class="fb"><a href="#!"><mark class="opacity-trans"></mark><span class="opacity-trans"></span></a></li>
+
+								<li class="gplus"><a href="#!"><mark class="opacity-trans"></mark><span class="opacity-trans"></span></a></li>
+
+							</ul>
+
+						</div>
+
+					</form>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div id="overlay">&nbsp;</div>
+
+		
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+		<script>if (!window.jQuery) { document.write('<script src="javascript/vendor/jquery-1.11.2.min.js"><\/script>'); }</script>
+
+
+
+		<!--[if IE]>
+
+			<script src="javascript/vendor/jquery.placeholder.min.js"></script>
+
+		<![endif]-->
+
+	
+
+		<script src="javascript/main.js"></script>
+
+
+
+    </body>
+
 </html>
-<script >
-
-  function showHint(str) {
-
-alert(str) ;
-  var xhttp;
-  if (str.length == 0) { 
-    document.getElementById("txtHint").innerHTML = "";
-    return;
-  }
-  xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("txtHint").innerHTML = this.responseText;
-    }
-  };
-  xhttp.open("GET", "del.php?cat_id="+str, true);
-  xhttp.send();   
-}
-
-
-
-
-function myFunction() {
-    var inpObj = document.getElementById("fname");
-    var lname = document.getElementById("lname");
-    var email = document.getElementById("email");
-    var phone = document.getElementById("phone");
-    var password = document.getElementById("password");
-    var cpassword = document.getElementById("cpassword");
-    var city = document.getElementById("city");
-    var cat = document.getElementById("cat");
-    var promo = document.getElementById("promo");
-     var dob = document.getElementById("dob");
-      var wd = document.getElementById("wd");
-
-    
-    if (!inpObj.checkValidity()) {
-        document.getElementById("demo").innerHTML = "Please enter first name.";
-    } else {
-        document.getElementById("demo").innerHTML = "";
-    } 
-if (!lname.checkValidity()) {
-        document.getElementById("demo1").innerHTML = "Please enter last name.";
-    } else {
-        document.getElementById("demo1").innerHTML = "";
-    } 
-    if (!email.checkValidity()) {
-        document.getElementById("demo2").innerHTML = "Please enter email.";
-    } else {
-        document.getElementById("demo2").innerHTML = "";
-    } 
-    if (!phone.checkValidity()) {
-        document.getElementById("demo3").innerHTML = "Please enter phone number.";
-    } else {
-        document.getElementById("demo3").innerHTML = "";
-    } 
-    if (!password.checkValidity()) {
-        document.getElementById("demo4").innerHTML = "Please enter password.";
-    } else {
-        document.getElementById("demo4").innerHTML = "";
-    } 
-    if (!cpassword.checkValidity()) {
-        document.getElementById("demo5").innerHTML = "Please enter password again.";
-    } else {
-        document.getElementById("demo5").innerHTML = "";
-    } 
-    if (!city.checkValidity()) {
-        document.getElementById("demo6").innerHTML = "Please enter city,state.";
-    } else {
-        document.getElementById("demo6").innerHTML = "";
-    } 
-    if (cat.value =="0") {
-      
-        document.getElementById("demo7").innerHTML = "Please select category.";
-      
-    } else {
-        document.getElementById("demo7").innerHTML = "";
-    } 
-    if (!promo.checkValidity()) {
-        document.getElementById("demo8").innerHTML = "Please enter promocode.";
-    } else {
-        document.getElementById("demo8").innerHTML = "";
-    } 
-
-     if (!dob.checkValidity()) {
-        document.getElementById("demo9").innerHTML = "Please enter dateofbirth.";
-    } else {
-        document.getElementById("demo9").innerHTML = "";
-    } 
-
-     if (!wd.checkValidity()) {
-        document.getElementById("demo10").innerHTML = "Please enter work description.";
-    } else {
-        document.getElementById("demo10").innerHTML = "";
-    } 
-
-} 
-
-  
-function Validate() 
-{
-    var val = document.getElementById('fname').value;
-    
-    if (!val.match(/^[a-zA-Z\s]+$/)) 
-    {
-        alert('Only alphabets are allowed');
-        return false;
-    }
-    
-    return true;
-}
-
-
-
-function validatenumerics(key) {
-           //getting key code of pressed key
-           var keycode = (key.which) ? key.which : key.keyCode;
-           //comparing pressed keycodes
-
-           if (keycode > 31 && (keycode < 48 || keycode > 57)) {
-               alert(" You can enter only characters 0 to 9 ");
-               return false;
-           }
-           else return true;
-
-
-       }
-
-
-       function ValidateEmail(inputText)
-{
-var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-if(inputText.value.match(mailformat))
-{
-//document.form1.email.focus();
-return true;
-}
-else
-{
-alert("You have entered an invalid email address!");
-document.form1.email.focus();
-return false;
-}
-}
-
-function ValidatemyForm(inputText)
-{
-if (inputText.value.length < 8)
-
-{
-   alert("Please enter at least 8 characters in the \"password\" field.");
-   form1.password.focus();
-   return false;
-}
-return true;
-}
-
-</script>

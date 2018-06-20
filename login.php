@@ -17,7 +17,7 @@ header("location: index.php");
 
         <meta charset="utf-8">
 
-        <title>contact page</title>
+        <title>Login Page</title>
 
         <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on RentDeals and receive a $100 cash back rebate.">
 
@@ -65,74 +65,7 @@ header("location: index.php");
 
 		
 
-			<header id="header" class="all-trans">
-
-				<div class="container">
-
-					
-
-					<p id="navTrigger">
-
-						<span class="bar all-trans">&nbsp;</span>
-
-						<span class="bar all-trans">&nbsp;</span>
-
-						<span class="bar all-trans">&nbsp;</span>
-
-						<a href="javascript:void(0)">&nbsp;</a>
-
-					</p>
-
-					
-
-					<div id="logo" class="onLeft">
-
-						<a href="index.html" title="Eventock.com">
-
-							<img src="images/11.png" alt="Eventock.com" />
-
-						</a>
-
-					</div>
-
-					
-
-					<div id="navigations">
-
-						<div class="onRight metamenu">
-
-							<span class="cta-phone"><span>Need Assistance?</span> Call 000.000.0000</span>
-
-
-						</div>
-
-						<nav class="onRight" id="navigation">
-
-							<ul>
-
-								<li><a href="#!">About Us</a></li>
-
-								<li><a href="#!">Scholarship</a></li>
-
-								<li><a href="#!">Blog</a></li>
-
-								<li><a href="#!">Terms</a></li>
-
-								<li><a href="#!">Privacy</a></li>
-
-								<li><a href="#!">Contact Us</a></li>
-
-							</ul>
-
-						</nav>
-
-					</div>
-
-					
-
-				</div>
-
-			</header>
+			<?php include "header.php"; ?>
 
 			
 
@@ -150,7 +83,7 @@ header("location: index.php");
 
 							<fieldset>
 
-								<p class="legend">Login Form</p>
+								<p class="legend">Login Form <span style="color:red">  <?php if(isset($_SESSION['smsgs'])){ echo $_SESSION['smsgs']; } unset($_SESSION['smsgs']); ?></span></p>
 
 								<div class="cols">
 

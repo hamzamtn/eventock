@@ -37,67 +37,15 @@ header("location: profile.php");
 		
 		<div id="container" class="border-box">
 		
-			<header id="header" class="all-trans">
-				<div class="container">
-					
-					<p id="navTrigger">
-						<span class="bar all-trans">&nbsp;</span>
-						<span class="bar all-trans">&nbsp;</span>
-						<span class="bar all-trans">&nbsp;</span>
-						<a href="javascript:void(0)">&nbsp;</a>
-					</p>
-					
-					<div id="logo" class="onLeft">
-						<a href="index.php" title="Eventock.com">
-							<img src="images/11.png" alt="Eventock.com" />
-						</a>
-					</div>
-					
-					<div id="navigations">
-						<div id="banner" class="onRight metamenu">
-						
-				<div class="options-list">
-            <ul>
-              <li>
-                <a href="signup1.php" class="all-trans">signup</a>
-
-              </li>
-              
-            </ul>
-          </div>
-							<div class="options-list">
-            <ul>
-              <li>
-                <a href="login.php" class="all-trans">login</a>
-                
-              </li>
-              
-            </ul>
-          </div>	
-
-						</div>
-						<nav class="onRight" id="navigation">
-							<ul>
-								<li><a href="#!">About Us</a></li>
-								<li><a href="#!">Scholarship</a></li>
-								<li><a href="#!">Blog</a></li>
-								<li><a href="#!">Terms</a></li>
-								<li><a href="#!">Privacy</a></li>
-								<li><a href="#!">Contact Us</a></li>
-							</ul>
-						</nav>
-					</div>
-					
-				</div>
-			</header>
+			<?php include "header.php"; ?>
 			<section id="banner">
-				<img src="images/BANNER.png" alt="banner1"  class="bannerImg" />
-				<div class="banner-content">
-					<h2></h2>
-					<form action="filter.php" method="post">
-						<fieldset>
-							<div class="form-col">
-								<input type="text" placeholder="Search entertainers, photographers, party rentals..." class="cityInp" />
+				<img src="images/BANNER1.png" alt="banner1"  class="bannerImg" />
+				<div  class="banner-content">
+					<h2 ></h2>
+					<form action="search.php" method="post">
+						<fieldset >
+							<div  class="form-col">
+								<input type="text" name="search" id="search" placeholder="Search Entertainers, Photographers, Party rentals..." class="cityInp" />
 							</div>
 							
 							
@@ -162,7 +110,7 @@ header("location: profile.php");
 												</div>
 											</div>
 											<figcaption class="caption">
-												<p>Review customized quotes and evaluate your options. Then talk with the vendors right here on GigMasters.</p>
+												<p>Review customized quotes and evaluate your options. Then talk with the vendors right here on Eventock.</p>
 											</figcaption>
 										</figure>
 									</li>

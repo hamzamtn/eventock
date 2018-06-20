@@ -2,3 +2,8 @@ AuthType Basic
 AuthName "Password Protected Area"
 AuthUserFile /home/eventoc1/public_html/htpasswd/.htpasswd
 Require valid-user
+
+RewriteEngine On
+# Rewrite --- http://eventock.com/signup1.php => http://eventock.com/signup
+
+RewriteRule ^signup1\.php$ /signup?&%{QUERY_STRING}

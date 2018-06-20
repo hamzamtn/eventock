@@ -1,21 +1,33 @@
-<?php 
+<?php
 session_start();
+
  require_once ('connect.php');
+  include  "session.php";
 
+$email=$_SESSION['login_user'];
  
 
+if (isset($_REQUEST['delimage']))
+{
+ $a= $_REQUEST['delimage']; 
 
- $SelSql = "SELECT * FROM `allowed_fields`";
+  $del_sql = "DELETE FROM `images`  WHERE id='".$a."' ";
+  mysqli_query($connection, $del_sql);
+  //exit();
+  header('location:show_image.php');
+}
 
-//echo $SelSql;exit;
-
-$ress = mysqli_query($connection, $SelSql);
-$r = mysqli_fetch_assoc($ress);{
 
  
- 
+$select = "SELECT * FROM `images` where email='".$email."'";
+
+
+$select = mysqli_query($connection, $select);
+
 
 ?>
+
+
 
 <!DOCTYPE html>
 
@@ -25,7 +37,7 @@ $r = mysqli_fetch_assoc($ress);{
 
         <meta charset="utf-8">
 
-        <title>SignUp Page</title>
+        <title>Show Images</title>
 
         <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on RentDeals and receive a $100 cash back rebate.">
 
@@ -45,9 +57,14 @@ $r = mysqli_fetch_assoc($ress);{
 
 		<link rel="stylesheet" href="styles/responsive.css">
 
-		
+	
 
 		<link rel="icon" href="favicon.ico">
+
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 		<!--[if IE]>
 
@@ -73,7 +90,8 @@ $r = mysqli_fetch_assoc($ress);{
 
 		
 
-			<?php include "header.php"; ?>
+			<?php include "login_header.php"; ?>
+
 			
 
 			<section id="content">
@@ -84,134 +102,75 @@ $r = mysqli_fetch_assoc($ress);{
 
 						
 
-							<p class="legend" style="color:red"> <?php if(isset($_SESSION['fmsg1'])){ echo $_SESSION['fmsg1']; } unset($_SESSION['fmsg1']); ?></p>
+							
 
-						<form name="form1" action="process3.php" method="post">
+						<form action="add_images.php" method="post" enctype="multipart/form-data">
 
 							<fieldset>
+			
+								<div class="container">
+								<div class="row">
+									<?php 
+  
+								    while($selected = mysqli_fetch_array($select)){
+								    ?>
 
-								<p class="legend">
+									
+									    <div class="col-md-4">
+									      <div class="thumbnail">
+									        
+									          <img src="services/<?php  echo $selected['image']; ?>">
+									          <div class="caption" style="text-align: center;">
+									            <input type="button" value="Delete" id="del" style="width:80px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
+									          </div>
+									        
+									      </div>
+									    </div>
+									
 
-								<div class="cols">
 
-									<?php if($r['fname']=="true"){ ?>
+									 <?php } ?>
+
+
+
+									 </div>
+
+
+
+
+
+									<!-- <?php 
+  
+								    while($selected = mysqli_fetch_array($select)){
+								    ?>
 
 									<div class="form-col">
 
-										<label >First Name</label>
 										
+										<img  src="services/<?php  echo $selected['image'];  ?>">
 
-										<input type="text" name="fname" id="fname" placeholder="<?php if(isset($_SESSION['fname'])){ echo $_SESSION['fname'];} ?>" readonly />
+										<input type="button" value="Delete Image" id="del" style="width:150px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
 
-									</div><?php } ?>
+									</div><?php } ?> -->
 
-									 <?php if($r['lname']=="true"){ ?>
-
-									<div class="form-col">
-
-										<label >Last Name</label>
-
-										<input type="text" name="lname" id="lname"  placeholder="<?php if(isset($_SESSION['lname'])){ echo $_SESSION['lname'];} ?>" readonly />
-
-									</div><?php } ?>
-
-									 <?php if($r['email']=="true"){ ?>
-
-									<div class="form-col">
-
-										<label >Your Email Address </span></label>
-
-										<input type="email" name="email" id="email"  placeholder="<?php if(isset($_SESSION['email'])){ echo $_SESSION['email'];} ?>" readonly/>
-
-									</div><?php } ?>
-
-
-									<?php if($r['phone']=="true"){ ?>
-
-									<div class="form-col">
-
-										<label >Phone</label>
-
-										<input type="text"name="phone" id="phone" placeholder="<?php if(isset($_SESSION['phone'])){ echo $_SESSION['phone'];} ?>" readonly/>
-
-									</div><?php } ?>
-
-									<?php if($r['cat']=="true"){ ?>
-
-
-									<div class="form-col">
-
-										<label >Category</label>
-
-										<input type="text" placeholder="<?php if(isset($_SESSION['cat'])){ echo $_SESSION['cat'];} ?>" name="cat" id="cat" readonly />
-
-									</div><?php } ?>
-
-									 <?php if($r['sub_cat']=="true"){ ?>
-
-
-									<div class="form-col">
-
-										<label >Sub-category</label>
-
-										<input type="text"  name="sub_cat" id="sub_cat" placeholder="<?php if(isset($_SESSION['sub_cat'])){ echo $_SESSION['sub_cat'];} ?>" readonly  />
-
-									</div><?php } ?>
-
-									 <?php if($r['city']=="true"){ ?>
-
-
-									<div class="form-col">
-
-										<label >City,State</label>
-
-										<input type="text"  name="city" id="city"placeholder="<?php if(isset($_SESSION['city'])){ echo $_SESSION['city'];} ?>" readonly />
-
-									</div><?php } ?>
-
-
-									
-
-
-
-									<?php if($r['pname']=="true"){ ?>
-
-
-									<div class="form-col">
-
-										<label >Profile Name</label>
-
-										<input type="text"  name="pname" id="pname" placeholder="<?php if(isset($_SESSION['pname'])){ echo $_SESSION['pname'];} ?>" readonly />
-
-									</div><?php } ?>
-
-
-
-
-
-									<?php if($r['promocode']=="true"){ ?>
-
-
-									<div class="form-col">
-
-										<label>Promocode</label>
-
-										<input type="text"  name="promo" id="promo" placeholder="<?php if(isset($_SESSION['promo'])){ echo $_SESSION['promo'];} ?>" readonly />
-
-									</div><?php } ?>
-									<?php } ?>
-	
- 
-
-									
+								
 
 									<div class="clearfix">
 
-										<input type="submit" id="myBtn"  name="Signup" value="Signup" onclick="myFunction()"/>
+										<input type="submit" name="Signup" value="Add Image" >
+										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:150px;color: #fff;background: #004c83;"/>
 
 									</div>
+									<!--
 
+									<div class="clearfix">
+
+										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:200px;color: #fff;background: #004c83;">
+
+									</div>-->
 								</div>
+
+								
 
 							</fieldset>
 

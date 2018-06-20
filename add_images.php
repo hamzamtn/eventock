@@ -1,21 +1,13 @@
-<?php 
+<?php
 session_start();
+
  require_once ('connect.php');
-
- 
-
-
- $SelSql = "SELECT * FROM `allowed_fields`";
-
-//echo $SelSql;exit;
-
-$ress = mysqli_query($connection, $SelSql);
-$r = mysqli_fetch_assoc($ress);{
-
- 
- 
+ include  "session.php";
+  
 
 ?>
+ 
+
 
 <!DOCTYPE html>
 
@@ -25,9 +17,9 @@ $r = mysqli_fetch_assoc($ress);{
 
         <meta charset="utf-8">
 
-        <title>SignUp Page</title>
+        <title>Add Images</title>
 
-        <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on RentDeals and receive a $100 cash back rebate.">
+        <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on Eventock and receive a $100 cash back rebate.">
 
 		<meta name="Keywords" content="Houston apartments, Houston apartment, Houston apartment rental, Houston apartment rentals, Houston texas apartments, Houston apartments for rent, Houston tx apartments, apartments in houston, apartments in houston texas, apartment in houston texas, houston texas apartment, apartment in houston, houston tx apartment, apartments in houston tx" />
 
@@ -73,7 +65,8 @@ $r = mysqli_fetch_assoc($ress);{
 
 		
 
-			<?php include "header.php"; ?>
+			<?php include "login_header.php"; ?>
+
 			
 
 			<section id="content">
@@ -84,136 +77,60 @@ $r = mysqli_fetch_assoc($ress);{
 
 						
 
-							<p class="legend" style="color:red"> <?php if(isset($_SESSION['fmsg1'])){ echo $_SESSION['fmsg1']; } unset($_SESSION['fmsg1']); ?></p>
+						<?php  unset($_SESSION['smsg']); if(isset($_SESSION['smsg'])){
+  echo $_SESSION['smsg'];
+  
+  }
+  
+  
+ if(isset($_SESSION['fmsg'])){ 
+ echo $_SESSION['fmsg'];
+ }  
+ unset($_SESSION['fmsg']); ?>
 
-						<form name="form1" action="process3.php" method="post">
+						<form method="post"  action="img_process.php" enctype="multipart/form-data">
 
 							<fieldset>
 
-								<p class="legend">
+								<p class="legend">Add Image</p>
 
 								<div class="cols">
 
-									<?php if($r['fname']=="true"){ ?>
-
 									<div class="form-col">
 
-										<label >First Name</label>
+										<label>Select Image*</label>
+
+										<input type="file" name="image" id="image">
+
+									</div>
+
+									<div class="clearfix">
+
+										
+										
 										
 
-										<input type="text" name="fname" id="fname" placeholder="<?php if(isset($_SESSION['fname'])){ echo $_SESSION['fname'];} ?>" readonly />
-
-									</div><?php } ?>
-
-									 <?php if($r['lname']=="true"){ ?>
-
-									<div class="form-col">
-
-										<label >Last Name</label>
-
-										<input type="text" name="lname" id="lname"  placeholder="<?php if(isset($_SESSION['lname'])){ echo $_SESSION['lname'];} ?>" readonly />
-
-									</div><?php } ?>
-
-									 <?php if($r['email']=="true"){ ?>
-
-									<div class="form-col">
-
-										<label >Your Email Address </span></label>
-
-										<input type="email" name="email" id="email"  placeholder="<?php if(isset($_SESSION['email'])){ echo $_SESSION['email'];} ?>" readonly/>
-
-									</div><?php } ?>
-
-
-									<?php if($r['phone']=="true"){ ?>
-
-									<div class="form-col">
-
-										<label >Phone</label>
-
-										<input type="text"name="phone" id="phone" placeholder="<?php if(isset($_SESSION['phone'])){ echo $_SESSION['phone'];} ?>" readonly/>
-
-									</div><?php } ?>
-
-									<?php if($r['cat']=="true"){ ?>
-
-
-									<div class="form-col">
-
-										<label >Category</label>
-
-										<input type="text" placeholder="<?php if(isset($_SESSION['cat'])){ echo $_SESSION['cat'];} ?>" name="cat" id="cat" readonly />
-
-									</div><?php } ?>
-
-									 <?php if($r['sub_cat']=="true"){ ?>
-
-
-									<div class="form-col">
-
-										<label >Sub-category</label>
-
-										<input type="text"  name="sub_cat" id="sub_cat" placeholder="<?php if(isset($_SESSION['sub_cat'])){ echo $_SESSION['sub_cat'];} ?>" readonly  />
-
-									</div><?php } ?>
-
-									 <?php if($r['city']=="true"){ ?>
-
-
-									<div class="form-col">
-
-										<label >City,State</label>
-
-										<input type="text"  name="city" id="city"placeholder="<?php if(isset($_SESSION['city'])){ echo $_SESSION['city'];} ?>" readonly />
-
-									</div><?php } ?>
-
-
-									
-
-
-
-									<?php if($r['pname']=="true"){ ?>
-
-
-									<div class="form-col">
-
-										<label >Profile Name</label>
-
-										<input type="text"  name="pname" id="pname" placeholder="<?php if(isset($_SESSION['pname'])){ echo $_SESSION['pname'];} ?>" readonly />
-
-									</div><?php } ?>
-
-
-
-
-
-									<?php if($r['promocode']=="true"){ ?>
-
-
-									<div class="form-col">
-
-										<label>Promocode</label>
-
-										<input type="text"  name="promo" id="promo" placeholder="<?php if(isset($_SESSION['promo'])){ echo $_SESSION['promo'];} ?>" readonly />
-
-									</div><?php } ?>
-									<?php } ?>
-	
- 
+									</div>
 
 									
 
 									<div class="clearfix">
 
-										<input type="submit" id="myBtn"  name="Signup" value="Signup" onclick="myFunction()"/>
+										<input type="submit" value="Add Image" />
+										
+										<input type="button" name="Back" value="Show Images" onclick="location.href='/show_image.php';" style="width:150px;color: #fff;background: #004c83; margin-left: 50px"/>
 
 									</div>
+									
+
+
+
 
 								</div>
 
+
 							</fieldset>
+							
 
 						</form>
 
@@ -702,3 +619,4 @@ $r = mysqli_fetch_assoc($ress);{
     </body>
 
 </html>
+
