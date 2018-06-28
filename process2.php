@@ -3,8 +3,17 @@
 session_start();
 
 if ($_POST['Continue'] != "") {
-	
- $_SESSION["sub_cat"]=$_POST['sub_cat']; 
+
+
+//echo $_POST['sub_cat'];
+
+
+$val=implode(",",$_POST['sub_cat']);
+
+
+
+$_SESSION["sub_cat"]=$val; 
+
 
 
 $_SESSION["pname"]=$_POST['pname'];

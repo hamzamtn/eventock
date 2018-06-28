@@ -1,46 +1,8 @@
 <?php
+
 session_start();
 
- require_once ('connect.php');
-  include  "session.php";
-
-$email=$_SESSION['login_user'];
- 
-
- $ReadSql = "SELECT * FROM `vender_signup` where email='".$email."'";
-
-$res = mysqli_query($connection, $ReadSql);
-	
-$r = mysqli_fetch_assoc($res);
-	if($r['user_type']=="admin"){	
-	header('location: disable_users.php');
-	}elseif ($rw['user_type']=="user") {
-		header('location: booking_details.php');
-	}
-
-
-if (isset($_REQUEST['delimage']))
-{
- $a= $_REQUEST['delimage']; 
-
-  $del_sql = "DELETE FROM `images`  WHERE id='".$a."' ";
-  mysqli_query($connection, $del_sql);
-  //exit();
-  header('location:show_image.php');
-}
-
-
- 
-$select = "SELECT * FROM `images` where email='".$email."'";
-
-
-$select = mysqli_query($connection, $select);
-
-
 ?>
-
-
-
 <!DOCTYPE html>
 
 <html lang="en">    
@@ -49,7 +11,7 @@ $select = mysqli_query($connection, $select);
 
         <meta charset="utf-8">
 
-        <title>Show Images</title>
+        <title>User Signup</title>
 
         <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on RentDeals and receive a $100 cash back rebate.">
 
@@ -69,14 +31,9 @@ $select = mysqli_query($connection, $select);
 
 		<link rel="stylesheet" href="styles/responsive.css">
 
-	
+		
 
 		<link rel="icon" href="favicon.ico">
-
-
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 		<!--[if IE]>
 
@@ -94,6 +51,9 @@ $select = mysqli_query($connection, $select);
 
     <body id="contactPage"> 
 
+
+
+
 		<p id="skipLink"><a href="#content">Skip navigation</a></p>
 
 		
@@ -102,7 +62,7 @@ $select = mysqli_query($connection, $select);
 
 		
 
-			<?php include "login_header.php"; ?>
+			<?php include "header.php"; ?>
 
 			
 
@@ -114,86 +74,98 @@ $select = mysqli_query($connection, $select);
 
 						
 
-							
+						
 
-						<form action="add_images.php" method="post" enctype="multipart/form-data">
+						<form name="form1"  method="post" action="user_process.php" onsubmit="return myFunction();">
 
 							<fieldset>
-								<p class="legend">Gallery</p>
-			
-								<div class="container">
-								<div class="row">
-									<?php 
-  
-								    while($selected = mysqli_fetch_array($select)){
-								    ?>
 
-									
-									    <div class="col-md-4">
-									      <div class="thumbnail">
-									        
-									          <img src="services/<?php  echo $selected['image']; ?>">
-									          <div class="caption" style="text-align: center;">
-									            <input type="button" value="Delete" id="del" style="width:80px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
-									          </div>
-									        
-									      </div>
-									    </div>
-									
+								<p class="legend">User Signup <span style="color:red"><?php if(isset($_SESSION['fmsg1'])){ echo $_SESSION['fmsg1']; } unset($_SESSION['fmsg1']); ?></span></p>
 
-
-									 <?php } ?>
-
-
-
-									 </div>
-
-
-
-
-
-									<!-- <?php 
-  
-								    while($selected = mysqli_fetch_array($select)){
-								    ?>
+								<div class="cols">
 
 									<div class="form-col">
 
-										
-										<img  src="services/<?php  echo $selected['image'];  ?>">
+										<label>FIRST NAME<span style="color:red" id="demo"> </span> </label>
 
-										<input type="button" value="Delete Image" id="del" style="width:150px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
-
-									</div><?php } ?> -->
-
-								
-
-									<div class="clearfix">
-
-										<input type="submit" name="Signup" value="Add Image" >
-										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:150px;color: #fff;background: #004c83;"/>
+										<input type="text" name="fname" id="fname" />
 
 									</div>
-									<!--
+
+
+
+									<div class="form-col">
+
+										<label>LAST NAME<span style="color:red" id="demo1"> </span> </label>
+
+										<input type="text" name="lname" id="lname" />
+
+									</div>
+
+
+
+
+									<div class="form-col">
+
+										<label>EMAIL ADDRESS <span style="color:red" id="demo2"> </span></label>
+
+										<input type="text" name="email" id="email" />
+
+									</div>
+
+
+
+
+									<div class="form-col">
+
+										<label>CONFIRM EMAIL ADDRESS <span style="color:red" id="demo3"> </span> </label>
+
+										<input type="text" name="cemail" id="cemail" />
+
+									</div>
+
+
+
+
+									<div class="form-col">
+
+										<label>PHONE NUMBER <span style="color:red" id="demo4"> </span></label>
+
+										<input type="text" name="phone" id="phone" onkeypress="return validatenumerics(event)" />
+
+									</div>
+
 
 									<div class="clearfix">
+										
 
-										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:200px;color: #fff;background: #004c83;">
+										<input type="submit" value="continue" name="continue" id="continue" />
 
-									</div>-->
+										
+										
+
+										
+									</div>
+
+									
+
 								</div>
-
-								
 
 							</fieldset>
 
 						</form>
+
+
+				
+						
+
 
 					</div>
 
 				</div>
 
 			</section>
+
 
 		</div>	
 
@@ -569,3 +541,113 @@ $select = mysqli_query($connection, $select);
     </body>
 
 </html>
+
+<script type="text/javascript">
+
+
+function myFunction() {
+
+	var fname = document.getElementById("fname");
+	var lname = document.getElementById("lname");
+    var email = document.getElementById("email");
+    var cemail = document.getElementById("cemail");
+    var phone = document.getElementById("phone");
+  
+  
+    var flag_submit = true;
+    if (fname.value == "") {
+        document.getElementById("demo").innerHTML = "Please enter first name.";
+        document.form1.fname.focus();
+        flag_submit = false;
+    } else {
+        document.getElementById("demo").innerHTML = "";
+        document.form1.lname.focus();
+        
+    }
+    if (lname.value == "") {
+        document.getElementById("demo1").innerHTML = "Please enter last name.";
+        
+        flag_submit = false;
+    } else {
+        document.getElementById("demo1").innerHTML = "";
+        document.form1.email.focus();
+        
+    }
+    if (email.value == "") {
+        document.getElementById("demo2").innerHTML = "Please enter email.";
+        
+        flag_submit = false;
+    } else {
+        document.getElementById("demo2").innerHTML = "";
+        document.form1.cemail.focus();
+        flag_submit = ValidateEmail(document.form1.email.value);
+        
+        
+    }
+
+       if (cemail.value == "") {
+        document.getElementById("demo3").innerHTML = "Please enter confirm email.";
+        
+
+        
+        flag_submit = false;
+    } else {
+        document.getElementById("demo3").innerHTML = "";
+        if (email.value != cemail.value) {
+
+        	document.getElementById("demo3").innerHTML = "Email not matched";
+        document.form1.cemail.focus();
+        }else{
+
+        	document.form1.phone.focus();
+        }
+         	
+    }
+    
+    if (phone.value == "") {
+        document.getElementById("demo4").innerHTML = "Please enter phone number.";
+        
+        flag_submit = false;
+    } else {
+        document.getElementById("demo4").innerHTML = "";
+
+        
+        
+    } 
+
+	
+	return flag_submit;
+} 
+
+
+function validatenumerics(key) {
+           //getting key code of pressed key
+           var keycode = (key.which) ? key.which : key.keyCode;
+           //comparing pressed keycodes
+
+           if (keycode > 31 && (keycode < 48 || keycode > 57)) {
+               document.getElementById("demo4").innerHTML = "Please enter numeric number.";
+               return false;
+           }
+           else{
+           	document.getElementById("demo3").innerHTML = "";
+           	return true;
+           } 
+
+
+       }
+
+
+       function ValidateEmail(inputText) 
+{
+ if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(inputText))
+  {
+    return true;
+  }
+ 	document.getElementById("demo2").innerHTML = "Please enter valid email id.";
+ 	document.form1.email.focus();
+    return false;
+}
+
+
+</script>

@@ -1,46 +1,23 @@
 <?php
+
 session_start();
-
  require_once ('connect.php');
-  include  "session.php";
-
-$email=$_SESSION['login_user'];
- 
-
- $ReadSql = "SELECT * FROM `vender_signup` where email='".$email."'";
-
-$res = mysqli_query($connection, $ReadSql);
-	
-$r = mysqli_fetch_assoc($res);
-	if($r['user_type']=="admin"){	
-	header('location: disable_users.php');
-	}elseif ($rw['user_type']=="user") {
-		header('location: booking_details.php');
-	}
+if (isset($_POST) & !empty($_POST)) {
 
 
-if (isset($_REQUEST['delimage']))
-{
- $a= $_REQUEST['delimage']; 
+$_SESSION["event_type"]=$_POST['cat'];
+ $_SESSION["vendors"]=$_POST['vendor'];
 
-  $del_sql = "DELETE FROM `images`  WHERE id='".$a."' ";
-  mysqli_query($connection, $del_sql);
-  //exit();
-  header('location:show_image.php');
+$_SESSION["date"]=$_POST['date'];
+
+	header('Location: book2.php');
 }
 
-
- 
-$select = "SELECT * FROM `images` where email='".$email."'";
-
-
-$select = mysqli_query($connection, $select);
+ $cSelSql = "SELECT * FROM `vender_signup`"; 
+ $rec = mysqli_query($connection, $cSelSql);
 
 
 ?>
-
-
-
 <!DOCTYPE html>
 
 <html lang="en">    
@@ -49,7 +26,7 @@ $select = mysqli_query($connection, $select);
 
         <meta charset="utf-8">
 
-        <title>Show Images</title>
+        <title>booking</title>
 
         <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on RentDeals and receive a $100 cash back rebate.">
 
@@ -69,14 +46,9 @@ $select = mysqli_query($connection, $select);
 
 		<link rel="stylesheet" href="styles/responsive.css">
 
-	
+		
 
 		<link rel="icon" href="favicon.ico">
-
-
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 		<!--[if IE]>
 
@@ -94,6 +66,9 @@ $select = mysqli_query($connection, $select);
 
     <body id="contactPage"> 
 
+
+
+
 		<p id="skipLink"><a href="#content">Skip navigation</a></p>
 
 		
@@ -102,7 +77,13 @@ $select = mysqli_query($connection, $select);
 
 		
 
-			<?php include "login_header.php"; ?>
+			<?php $email=$_SESSION['login_user']; 
+			if(!empty($email)){
+			  include "login_header.php"; 
+			}else{
+				include "header.php"; 
+			}
+			?>
 
 			
 
@@ -114,86 +95,81 @@ $select = mysqli_query($connection, $select);
 
 						
 
-							
+						
 
-						<form action="add_images.php" method="post" enctype="multipart/form-data">
+						<form name="form1"  method="post" onsubmit="return myFunction();">
 
 							<fieldset>
-								<p class="legend">Gallery</p>
-			
-								<div class="container">
-								<div class="row">
-									<?php 
-  
-								    while($selected = mysqli_fetch_array($select)){
-								    ?>
 
-									
-									    <div class="col-md-4">
-									      <div class="thumbnail">
-									        
-									          <img src="services/<?php  echo $selected['image']; ?>">
-									          <div class="caption" style="text-align: center;">
-									            <input type="button" value="Delete" id="del" style="width:80px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
-									          </div>
-									        
-									      </div>
-									    </div>
-									
+								<p class="legend">Booking step 1</p>
 
-
-									 <?php } ?>
-
-
-
-									 </div>
-
-
-
-
-
-									<!-- <?php 
-  
-								    while($selected = mysqli_fetch_array($select)){
-								    ?>
+								<div class="cols">
 
 									<div class="form-col">
 
+										<label>i am planing a <span style="color:red" id="demo"> </span></label>
+
+										<input type="text" name="cat" id="cat" />
+
 										
-										<img  src="services/<?php  echo $selected['image'];  ?>">
-
-										<input type="button" value="Delete Image" id="del" style="width:150px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
-
-									</div><?php } ?> -->
-
-								
-
-									<div class="clearfix">
-
-										<input type="submit" name="Signup" value="Add Image" >
-										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:150px;color: #fff;background: #004c83;"/>
 
 									</div>
-									<!--
+
+									<div class="form-col">
+
+										<label>Date of event <span style="color:red" id="demo1"> </span></label>
+
+										<input type="date" name="date" id="date" />
+
+									</div>
+
+									<div class="form-col">
+
+										<label>vendors <span style="color:red" id="demo2"> </span></label>
+
+										<select name="vendor" id="vendor" style="width: 100%;height: 50px"  >
+										      <option value="0">Please select one category</option>
+										     
+										      
+										       <?php 
+										    while($rc = mysqli_fetch_assoc($rec)){
+										    ?>
+
+										      <option value="<?php echo $rc['email'];?>"><?php echo $rc['fname']." ".$rc['lname']." (".$rc['cat'].")"; ?></option>
+										      <?php } ?>
+										    </select>
+
+									</div>
+
+									
 
 									<div class="clearfix">
 
-										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:200px;color: #fff;background: #004c83;">
+										<input type="submit" value="continue" name="continue" id="continue" />
+										
 
-									</div>-->
+										
+									</div>
+
+									
+
 								</div>
-
-								
 
 							</fieldset>
 
 						</form>
+
+
+				
+						
+
 
 					</div>
 
 				</div>
 
 			</section>
+
 
 		</div>	
 
@@ -569,3 +545,44 @@ $select = mysqli_query($connection, $select);
     </body>
 
 </html>
+
+<script language="JavaScript" type="text/javascript">
+
+
+function myFunction() {
+
+    var cat = document.getElementById("cat");
+    var date = document.getElementById("date");
+   var vendors = document.getElementById("vendors");
+  
+    var flag_submit = true;
+    
+    if (cat.value == "") {
+        document.getElementById("demo").innerHTML = "Please enter event.";
+        document.form1.cat.focus();
+        flag_submit = false;
+    } else {
+        document.getElementById("demo").innerHTML = "";
+        document.form1.date.focus();
+        
+    } 
+
+	if (date.value == "") {
+        document.getElementById("demo1").innerHTML = "Please enter date";
+        flag_submit = false;
+    } else {
+        document.getElementById("demo1").innerHTML = "";
+        document.form1.vendor.focus();
+    } 
+    if (vendor.value == "0") {
+        document.getElementById("demo2").innerHTML = "Please enter vendor.";
+        flag_submit = false;
+    } else {
+        document.getElementById("demo2").innerHTML = "";
+        
+    } 
+	return flag_submit;
+} 
+
+
+</script>

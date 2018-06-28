@@ -4,14 +4,23 @@ session_start();
 include "connect.php";
 include  "session.php";
 
+
+
 $email=$_SESSION['login_user'];
  $ReadSql = "SELECT * FROM `vender_signup` where email='".$email."'";
 
+$ress = mysqli_query($connection, $ReadSql);
+	
+$rw = mysqli_fetch_assoc($ress);
+	if($rw['user_type']=="admin"){	
+	header('location: disable_users.php');
+	}elseif ($rw['user_type']=="user") {
+		header('location: booking_details.php');
+	}	
+
+$ReadSql = "SELECT * FROM `vender_signup` where email='".$email."'";
+
 $res = mysqli_query($connection, $ReadSql);
-	
-	
-
-
 
 ?>
 
@@ -174,6 +183,8 @@ button:hover, a:hover {
  <p> <a href="services.php"><button>Services</button> </a></p>
  <p> <a href="edit_profile.php"><button>Edit Profile</button> </a></p>
  <p> <a href="add_services.php"><button>Add services</button> </a></p>
+ <p> <a href="quote.php"><button>Quotes</button> </a></p>
+ <p> <a href="matches.php"><button>Matches</button> </a></p>
   
 </div><?php }?>
 
@@ -197,111 +208,7 @@ button:hover, a:hover {
 
 		</div>	
 
-				<footer id="footer">	
-
-					<div class="container">
-
-						<div class="footer-links">
-
-							<ul>
-
-								<li>
-
-									<a href="#!">About Us</a>
-
-								</li>                                                            
-
-								<li>
-
-									<a href="#!">Scholorship</a>
-
-								</li>
-
-								<li>
-
-									<a href="#!">Blog</a>
-
-								</li>
-
-								<li>
-
-									<a href="#!">Terms</a>
-
-								</li>
-
-								<li>
-
-									<a href="#!">Privacy</a>
-
-								</li>
-
-								<li>
-
-									<a href="#!">Contact Us</a>
-
-								</li> 
-
-							</ul>
-
-						</div>
-
-						<div class="social">
-
-							<ul>
-
-								<li class="">
-
-									<a href="#!"><i class="fa fa-facebook" aria-hidden="true"></i>
-
-		</a>
-
-								</li>
-
-								<li class=" ">
-
-									<a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i>
-
-		</a>
-
-								</li>
-
-								<li class=" ">
-
-									<a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i>
-
-		</a>
-
-								</li>
-
-								<li class=" ">
-
-									<a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i>
-
-		</a>
-
-								</li>
-
-								<li class=" ">
-
-									<a href="#!"><i class="fa fa-instagram" aria-hidden="true"></i>
-
-		</a>
-
-								</li>
-
-							</ul>
-
-						</div>
-
-						<div class="copyright">
-
-							<p>&copy; 2017, Eventock.com</p>
-
-						</div>
-
-					</div>
-
-				</footer>
+				<?php include "footer.php"; ?>
 
 		
 

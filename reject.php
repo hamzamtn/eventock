@@ -4,41 +4,83 @@ session_start();
  require_once ('connect.php');
   include  "session.php";
 
+$a= $_GET['del']; 
+
 $email=$_SESSION['login_user'];
- 
+
 
  $ReadSql = "SELECT * FROM `vender_signup` where email='".$email."'";
 
-$res = mysqli_query($connection, $ReadSql);
+$rses = mysqli_query($connection, $ReadSql);
 	
-$r = mysqli_fetch_assoc($res);
-	if($r['user_type']=="admin"){	
-	header('location: disable_users.php');
-	}elseif ($rw['user_type']=="user") {
-		header('location: booking_details.php');
+$rsa = mysqli_fetch_assoc($rses);
+	if($rsa['user_type'] !="admin"){	
+	header('location: profile.php');
 	}
+ 
 
 
-if (isset($_REQUEST['delimage']))
+
+
+
+if (isset($_POST['reject']))
 {
- $a= $_REQUEST['delimage']; 
 
-  $del_sql = "DELETE FROM `images`  WHERE id='".$a."' ";
+	$select = "SELECT * FROM `vender_signup` where id='".$a."'";
+$select = mysqli_query($connection, $select);
+$selected = mysqli_fetch_assoc($select);
+
+					$em=$selected['email']; 
+
+					$reason=$_POST['reason'];
+
+
+			         $to=$em;
+
+					$subject = 'Admin confirmation';
+					$message = $reason; 
+					$message = wordwrap($message, 70, "\r\n");
+					$headers = 'From: hamzashafqat@csp.com.pk' . "\r\n" .
+					    'Reply-To: hamzashafqat@csp.com.pk' . "\r\n" .
+					    'X-Mailer: PHP/' . phpversion();
+
+					mail($to, $subject, $message, $headers);
+
+
+$fname=$selected['fname']; 
+$lname=$selected['lname']; 
+$email=$selected['email']; 
+$GLOBALS['z']=$email;
+$phone=$selected['phone']; 
+$password=$selected['password']; 
+$cat=$selected['cat']; 
+$sub_cat=$selected['sub_cat']; 
+$pname=$selected['pname']; 
+$city=$selected['city']; 
+$promocode=$selected['promocode']; 
+ 
+$image=$selected['image']; 
+$activation_key=$selected['activation_key']; 
+$activation_status=$selected['activation_status']; 
+$status=$selected['status']; 
+$user_type=$selected['user_type']; 
+
+$sql = "INSERT INTO `vender_signup_log` (fname, lname, email, phone, city, cat, sub_cat, pname, password, promocode, image, activation_key,activation_status, status, user_type, reject_reason ) VALUES ('$fname', '$lname', '$email','$phone','$city','$cat', '$sub_cat', '$pname', '$password', '$promocode', '$image','$activation_key' ,'$activation_status', '$status' ,'$user_type' ,'$reason')";
+ "<br />";
+$res = mysqli_query($connection, $sql) or die(mysqli_error($connection));
+
+if($res){
+		
+$del_sql = "DELETE FROM `vender_signup`  WHERE email='".$z."' ";
   mysqli_query($connection, $del_sql);
   //exit();
-  header('location:show_image.php');
+  header('location:disable_users.php');
+}
+ 
 }
 
 
- 
-$select = "SELECT * FROM `images` where email='".$email."'";
-
-
-$select = mysqli_query($connection, $select);
-
-
 ?>
-
 
 
 <!DOCTYPE html>
@@ -49,7 +91,7 @@ $select = mysqli_query($connection, $select);
 
         <meta charset="utf-8">
 
-        <title>Show Images</title>
+        <title>Reject User</title>
 
         <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on RentDeals and receive a $100 cash back rebate.">
 
@@ -69,14 +111,9 @@ $select = mysqli_query($connection, $select);
 
 		<link rel="stylesheet" href="styles/responsive.css">
 
-	
+		
 
 		<link rel="icon" href="favicon.ico">
-
-
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 		<!--[if IE]>
 
@@ -116,62 +153,30 @@ $select = mysqli_query($connection, $select);
 
 							
 
-						<form action="add_images.php" method="post" enctype="multipart/form-data">
+						<form name="form1" method="post" onsubmit="return myFunction();">
 
 							<fieldset>
-								<p class="legend">Gallery</p>
-			
-								<div class="container">
-								<div class="row">
-									<?php 
-  
-								    while($selected = mysqli_fetch_array($select)){
-								    ?>
-
-									
-									    <div class="col-md-4">
-									      <div class="thumbnail">
-									        
-									          <img src="services/<?php  echo $selected['image']; ?>">
-									          <div class="caption" style="text-align: center;">
-									            <input type="button" value="Delete" id="del" style="width:80px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
-									          </div>
-									        
-									      </div>
-									    </div>
-									
+								<p class="legend">Reject User</p>
 
 
-									 <?php } ?>
+									<div class="form-full-col">
 
+										<label>Reason <span style="color:red" id="demo"> </span> </label>
 
+										<textarea name="reason" id="reason"></textarea>
 
-									 </div>
-
-
-
-
-
-									<!-- <?php 
-  
-								    while($selected = mysqli_fetch_array($select)){
-								    ?>
-
-									<div class="form-col">
-
-										
-										<img  src="services/<?php  echo $selected['image'];  ?>">
-
-										<input type="button" value="Delete Image" id="del" style="width:150px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
-
-									</div><?php } ?> -->
-
-								
+									</div>
 
 									<div class="clearfix">
 
-										<input type="submit" name="Signup" value="Add Image" >
-										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:150px;color: #fff;background: #004c83;"/>
+										<!-- <input type="submit" />
+										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:150px;color: #fff;background: #004c83; margin-left: 50px"/> -->
+
+
+
+										<input type="submit" value="Reject" id="reject" name="reject" />
+
+										<input type="button" name="Back" value="Back" onclick="location.href='/disable_users.php';" style="width:150px;color: #fff;background: #004c83; margin-left: 50px"/>
 
 									</div>
 									<!--
@@ -181,9 +186,8 @@ $select = mysqli_query($connection, $select);
 										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:200px;color: #fff;background: #004c83;">
 
 									</div>-->
-								</div>
 
-								
+								</div>
 
 							</fieldset>
 
@@ -198,6 +202,7 @@ $select = mysqli_query($connection, $select);
 		</div>	
 
 				<?php include "footer.php"; ?>
+
 		
 
 		<div id="signIn-popup" class="popup">
@@ -569,3 +574,26 @@ $select = mysqli_query($connection, $select);
     </body>
 
 </html>
+<script type="text/javascript">
+	
+function myFunction() {
+
+    var reason = document.getElementById("reason");
+  
+  
+    var flag_submit = true;
+    
+    if (reason.value == "") {
+        document.getElementById("demo").innerHTML = "Please enter reason.";
+        document.form1.reason.focus();
+        flag_submit = false;
+    } else {
+        document.getElementById("demo").innerHTML = "";
+  
+    } 
+
+	
+	return flag_submit;
+} 
+
+</script>

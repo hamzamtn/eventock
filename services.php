@@ -6,12 +6,23 @@ session_start();
 
 $email=$_SESSION['login_user'];
 
+ $ReadSql = "SELECT * FROM `vender_signup` where email='".$email."'";
 
+$res = mysqli_query($connection, $ReadSql);
+    
+$r = mysqli_fetch_assoc($res);
+    if($r['user_type']=="admin"){   
+    header('location: disable_users.php');
+    }elseif ($rw['user_type']=="user") {
+        header('location: booking_details.php');
+    }
  
 $select = "SELECT * FROM `add_services` where email='".$email."'";
 
 
 $select = mysqli_query($connection, $select);
+
+
 
 
 ?>
@@ -63,7 +74,7 @@ $select = mysqli_query($connection, $select);
 
 
 
-<style type="text/css">
+<style >
         *, ::after, ::before { box-sizing: border-box; }.service-description { padding: 75px 0px 70px; border-bottom: 1px solid rgb(214, 215, 215); }.service-container { max-width: 1210px; margin-left: auto; margin-right: auto; padding-left: 15px; padding-right: 15px; }.service-container::after, .service-container::before { content: " "; display: table; }.service-container::after { clear: both; }.service-description__left { display: none; }.service-circle { margin: 0px auto; padding: 25px; width: 140px; height: 140px; border-radius: 50%; background-color: rgb(244, 244, 244); text-align: initial; }img { border: 0px; }.service-circle__icon { display: block; position: relative; top: 50%; left: 51%; transform: translate(-50%, -50%); width: 80%; max-height: 80%; }.service-description__body { text-align: center; }.service-heading { margin: 0px; font-family: ProximaNova-Light, Tahoma, Arial, sans-serif; font-size: 6.5vw; font-weight: 400; color: rgb(60, 60, 60); letter-spacing: 0.5px; }.service-heading + p { margin-top: 20px; margin-bottom: 93px; }.service-description__copy { margin: 0px auto; max-width: 855px; font-family: ProximaNova-Regular, Tahoma, Arial, sans-serif; font-size: 16px; color: rgb(120, 120, 121); line-height: 1.8; letter-spacing: 0.5px; }@media (min-width: 768px){.service-description__left { display: table-cell; vertical-align: middle; }}@media (min-width: 425px){.service-circle { width: 200px; height: 200px; }}@media (min-width: 992px){.service-circle { width: 230px; height: 230px; }}@media (min-width: 992px){.service-circle--lg { width: 320px; height: 320px; margin-bottom: 26px; }}@media (min-width: 992px){.service-circle--lg .service-circle__icon { width: 65%; }}@media (min-width: 425px){.service-circle__icon { width: 70%; }}@media (min-width: 768px){.service-description__body { display: table-cell; vertical-align: middle; padding-left: 45px; text-align: left; }}@media (min-width: 425px){.service-heading { font-size: 32px; }}@media (min-width: 425px){.service-description__copy { font-size: 15px; }}
     </style>
 
@@ -95,7 +106,8 @@ $select = mysqli_query($connection, $select);
 
                         <form action="profile.php" method="post">
 
-                           
+                           <fieldset>
+                                <p class="legend">Services</p>
 
                                 <?php 
   
@@ -123,7 +135,7 @@ $select = mysqli_query($connection, $select);
 
                                     </div>
 
-                              
+                              </fieldset>
 
                         </form>
 
@@ -135,111 +147,7 @@ $select = mysqli_query($connection, $select);
 
         </div>  
 
-                <footer id="footer">    
-
-                    <div class="container">
-
-                        <div class="footer-links">
-
-                            <ul>
-
-                                <li>
-
-                                    <a href="#!">About Us</a>
-
-                                </li>                                                            
-
-                                <li>
-
-                                    <a href="#!">Scholorship</a>
-
-                                </li>
-
-                                <li>
-
-                                    <a href="#!">Blog</a>
-
-                                </li>
-
-                                <li>
-
-                                    <a href="#!">Terms</a>
-
-                                </li>
-
-                                <li>
-
-                                    <a href="#!">Privacy</a>
-
-                                </li>
-
-                                <li>
-
-                                    <a href="#!">Contact Us</a>
-
-                                </li> 
-
-                            </ul>
-
-                        </div>
-
-                        <div class="social">
-
-                            <ul>
-
-                                <li class="">
-
-                                    <a href="#!"><i class="fa fa-facebook" aria-hidden="true"></i>
-
-        </a>
-
-                                </li>
-
-                                <li class=" ">
-
-                                    <a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i>
-
-        </a>
-
-                                </li>
-
-                                <li class=" ">
-
-                                    <a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i>
-
-        </a>
-
-                                </li>
-
-                                <li class=" ">
-
-                                    <a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i>
-
-        </a>
-
-                                </li>
-
-                                <li class=" ">
-
-                                    <a href="#!"><i class="fa fa-instagram" aria-hidden="true"></i>
-
-        </a>
-
-                                </li>
-
-                            </ul>
-
-                        </div>
-
-                        <div class="copyright">
-
-                            <p>&copy; 2017, Eventock.com</p>
-
-                        </div>
-
-                    </div>
-
-                </footer>
+               <?php include "footer.php"; ?>
 
         
 

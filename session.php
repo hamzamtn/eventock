@@ -12,9 +12,10 @@ $login_session =$row['email'];
 
 
 
-
 if(!isset($login_session) ){
 mysqli_close($connection); // Closing Connection
 header('Location: login.php'); // Redirecting To Home Page
 }
+
+
 ?>

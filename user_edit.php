@@ -5,40 +5,54 @@ session_start();
   include  "session.php";
 
 $email=$_SESSION['login_user'];
- 
+
 
  $ReadSql = "SELECT * FROM `vender_signup` where email='".$email."'";
 
-$res = mysqli_query($connection, $ReadSql);
+$rses = mysqli_query($connection, $ReadSql);
 	
-$r = mysqli_fetch_assoc($res);
-	if($r['user_type']=="admin"){	
-	header('location: disable_users.php');
+$rsa = mysqli_fetch_assoc($rses);
+	if($rsa['user_type'] !="admin"){	
+	header('location: profile.php');
 	}elseif ($rw['user_type']=="user") {
 		header('location: booking_details.php');
 	}
-
+ 
 
 if (isset($_REQUEST['delimage']))
 {
- $a= $_REQUEST['delimage']; 
-
-  $del_sql = "DELETE FROM `images`  WHERE id='".$a."' ";
+  $del_sql = "UPDATE `vender_signup` SET image=''  WHERE email='".$email."' ";
   mysqli_query($connection, $del_sql);
   //exit();
-  header('location:show_image.php');
+  header('location:edit_profile.php');
 }
 
 
- 
-$select = "SELECT * FROM `images` where email='".$email."'";
+
+ $a= $_GET['en']; 
+
+  
 
 
+$select = "SELECT * FROM `vender_signup` where id='".$a."'";
+$SelSql = "SELECT * FROM `allowed_fields`";
+$rSelSql = "SELECT * FROM `required_fields`";
+$cSelSql = "SELECT * FROM `category`";
 $select = mysqli_query($connection, $select);
 
 
-?>
+$ress = mysqli_query($connection, $SelSql);
+$res = mysqli_query($connection, $rSelSql);
+$rec = mysqli_query($connection, $cSelSql);
 
+$select = mysqli_fetch_assoc($select);{
+$rs = mysqli_fetch_assoc($res);{
+
+$r = mysqli_fetch_assoc($ress);{
+
+ 
+
+?>
 
 
 <!DOCTYPE html>
@@ -49,7 +63,7 @@ $select = mysqli_query($connection, $select);
 
         <meta charset="utf-8">
 
-        <title>Show Images</title>
+        <title>Edit User Profile</title>
 
         <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on RentDeals and receive a $100 cash back rebate.">
 
@@ -69,14 +83,9 @@ $select = mysqli_query($connection, $select);
 
 		<link rel="stylesheet" href="styles/responsive.css">
 
-	
+		
 
 		<link rel="icon" href="favicon.ico">
-
-
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 		<!--[if IE]>
 
@@ -116,62 +125,126 @@ $select = mysqli_query($connection, $select);
 
 							
 
-						<form action="add_images.php" method="post" enctype="multipart/form-data">
+						<form name="form1" action="user_edit_process.php" method="post" enctype="multipart/form-data">
 
 							<fieldset>
-								<p class="legend">Gallery</p>
-			
-								<div class="container">
-								<div class="row">
-									<?php 
-  
-								    while($selected = mysqli_fetch_array($select)){
-								    ?>
+								<p class="legend">Edit Profile </p>
 
-									
-									    <div class="col-md-4">
-									      <div class="thumbnail">
-									        
-									          <img src="services/<?php  echo $selected['image']; ?>">
-									          <div class="caption" style="text-align: center;">
-									            <input type="button" value="Delete" id="del" style="width:80px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
-									          </div>
-									        
-									      </div>
-									    </div>
-									
+								<?php if($select['image'] !=""){ ?>
 
-
-									 <?php } ?>
-
-
-
-									 </div>
-
-
-
-
-
-									<!-- <?php 
-  
-								    while($selected = mysqli_fetch_array($select)){
-								    ?>
+								<div class="cols">
 
 									<div class="form-col">
 
-										
-										<img  src="services/<?php  echo $selected['image'];  ?>">
+										<label>Profile Image</label>
+										<img  src="uploads/<?php  echo $select['image'];  ?>">
 
-										<input type="button" value="Delete Image" id="del" style="width:150px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
+										<input type="button" value="Delete Image" id="del" style="width:150px;color: #fff;background: #004c83;" onclick="location.href='/edit_profile.php?delimage=true';" />
 
-									</div><?php } ?> -->
+									</div><?php } ?>
 
 								
 
+									<?php if($r['fname']=="true"){ ?>
+
+									<div class="form-col">
+
+										<label>First Name</label>
+
+										<input type="text"  name="fname" id="fname" placeholder="First Name"  value="<?php echo $select['fname']; ?>" />
+
+									</div> <?php } ?>
+
+									<?php if($r['lname']=="true"){ ?>
+
+									<div class="form-col">
+
+										<label>Last Name</label>
+
+										<input type="text" name="lname" id="lname" placeholder="Last Name"  value="<?php  echo $select['lname'];  ?>" />
+
+									</div><?php } ?>
+
+									
+
+									 <?php if($r['email']=="true"){ ?>
+									<div class="form-col">
+
+										<label>Email</label>
+
+										<input type="text"  name="email" id="email" readonly placeholder="Email" value="<?php  echo $select['email'];  ?>" />
+
+									</div><?php } ?>
+
+
+
+									
+
+										<input type="hidden"  name="id" id="id" readonly placeholder="Email" value="<?php  echo $select['id'];  ?>" />
+
+									
+
+
+
+
+
+									<?php if($r['phone']=="true"){ ?>
+									<div class="form-col">
+
+										<label>Phone number</label>
+
+										<input type="text"  name="phone" id="phone" onkeypress="return validatenumerics(event)" placeholder="Phone" value="<?php  echo $select['phone']; ?>" />
+
+									</div><?php } ?>
+
+
+									<?php if($r['city']=="true"){ ?>
+									<div class="form-col">
+
+										<label>City</label>
+
+										<input type="text"  name="city" id="city" placeholder="State,city" value="<?php  echo $select['city'];  ?>" />
+
+									</div><?php } ?>
+
+
+									<?php if($r['cat']=="true"){ ?>
+									<div class="form-col">
+
+										<label>Category </label>
+
+										<input type="text"  name="cat" id="cat" placeholder="Category" value="<?php  echo $select['cat'];  ?>" />
+
+									</div><?php } ?>
+
+
+									<?php if($r['promocode']=="true"){ ?>
+									<div class="form-col">
+
+										<label>Profile Name </label>
+
+										<input type="text" name="pname" id="pname" placeholder="Profile Name" value="<?php  echo $select['pname'];  ?>" />
+
+									</div><?php } ?>
+
+
+
+									<div class="form-col">
+
+										<label>Select Image</label>
+
+										<input type="file" name="image" />
+
+									</div>
+									 <?php } ?>
+  									 <?php } ?>
+  									 <?php } ?>
+  									 
+
 									<div class="clearfix">
 
-										<input type="submit" name="Signup" value="Add Image" >
-										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:150px;color: #fff;background: #004c83;"/>
+										<input type="submit" />
+										<input type="button" name="Back" value="Back" onclick="location.href='/disable_users.php';" style="width:150px;color: #fff;background: #004c83; margin-left: 50px"/>
 
 									</div>
 									<!--
@@ -181,9 +254,8 @@ $select = mysqli_query($connection, $select);
 										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:200px;color: #fff;background: #004c83;">
 
 									</div>-->
-								</div>
 
-								
+								</div>
 
 							</fieldset>
 
@@ -198,6 +270,7 @@ $select = mysqli_query($connection, $select);
 		</div>	
 
 				<?php include "footer.php"; ?>
+
 		
 
 		<div id="signIn-popup" class="popup">

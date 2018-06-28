@@ -2,43 +2,51 @@
 session_start();
 
  require_once ('connect.php');
-  include  "session.php";
+ include  "session.php";
+
+  $id=$_GET['id'];
+$_SESSION['id']=$id;
 
 $email=$_SESSION['login_user'];
- 
+
 
  $ReadSql = "SELECT * FROM `vender_signup` where email='".$email."'";
 
-$res = mysqli_query($connection, $ReadSql);
+$rses = mysqli_query($connection, $ReadSql);
 	
-$r = mysqli_fetch_assoc($res);
-	if($r['user_type']=="admin"){	
+$rsa = mysqli_fetch_assoc($rses);
+	if($rsa['user_type']=="admin"){	
 	header('location: disable_users.php');
-	}elseif ($rw['user_type']=="user") {
-		header('location: booking_details.php');
+	}elseif ($rw['user_type']=="vendors") {
+		header('location: profile.php');
 	}
-
+ 
 
 if (isset($_REQUEST['delimage']))
 {
- $a= $_REQUEST['delimage']; 
+ $a= $_REQUEST['delimage'];
 
-  $del_sql = "DELETE FROM `images`  WHERE id='".$a."' ";
+ $del_sql = "DELETE FROM `booking`  WHERE id='".$a."' ";
   mysqli_query($connection, $del_sql);
-  //exit();
-  header('location:show_image.php');
+
+  header('location:booking_details.php');
 }
 
 
- 
-$select = "SELECT * FROM `images` where email='".$email."'";
 
+$select = "SELECT * FROM `booking` where id='".$id."'";
 
 $select = mysqli_query($connection, $select);
 
 
-?>
 
+
+$selected = mysqli_fetch_assoc($select);{
+
+
+ 
+
+?>
 
 
 <!DOCTYPE html>
@@ -49,7 +57,7 @@ $select = mysqli_query($connection, $select);
 
         <meta charset="utf-8">
 
-        <title>Show Images</title>
+        <title>Event Details</title>
 
         <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on RentDeals and receive a $100 cash back rebate.">
 
@@ -69,14 +77,9 @@ $select = mysqli_query($connection, $select);
 
 		<link rel="stylesheet" href="styles/responsive.css">
 
-	
+		
 
 		<link rel="icon" href="favicon.ico">
-
-
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 		<!--[if IE]>
 
@@ -116,74 +119,129 @@ $select = mysqli_query($connection, $select);
 
 							
 
-						<form action="add_images.php" method="post" enctype="multipart/form-data">
+						<form name="form1" action="update_booking.php" method="post" >
 
 							<fieldset>
-								<p class="legend">Gallery</p>
-			
-								<div class="container">
-								<div class="row">
-									<?php 
-  
-								    while($selected = mysqli_fetch_array($select)){
-								    ?>
+								<p class="legend">Edit Profile <span style="color:red"> <?php if(isset($_SESSION['s'])){ echo $_SESSION['s'];}unset($_SESSION['s']);
+								if(isset($_SESSION['f'])){ echo $_SESSION['f']; } unset($_SESSION['f']); ?> </span>  </p>
+
+								
+
+								<div class="cols">
 
 									
-									    <div class="col-md-4">
-									      <div class="thumbnail">
-									        
-									          <img src="services/<?php  echo $selected['image']; ?>">
-									          <div class="caption" style="text-align: center;">
-									            <input type="button" value="Delete" id="del" style="width:80px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
-									          </div>
-									        
-									      </div>
-									    </div>
+								
+
 									
-
-
-									 <?php } ?>
-
-
-
-									 </div>
-
-
-
-
-
-									<!-- <?php 
-  
-								    while($selected = mysqli_fetch_array($select)){
-								    ?>
 
 									<div class="form-col">
 
-										
-										<img  src="services/<?php  echo $selected['image'];  ?>">
+										<label>Event Type</label>
 
-										<input type="button" value="Delete Image" id="del" style="width:150px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
-
-									</div><?php } ?> -->
-
-								
-
-									<div class="clearfix">
-
-										<input type="submit" name="Signup" value="Add Image" >
-										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:150px;color: #fff;background: #004c83;"/>
+										<input type="text"  name="event_type" id="event_type"   value="<?php echo $selected['event_type']; ?>" />
 
 									</div>
-									<!--
+
+									<div class="form-col">
+
+										<label>Vendor</label>
+
+										<input type="text" name="vendors" id="vendors"  value="<?php  echo $selected['vendors'];  ?>" />
+
+									</div>
+
+									
+
+									
+									<div class="form-col">
+
+										<label>Date</label>
+
+										<input type="date"  name="date" id="date" value="<?php  echo $selected['date'];  ?>" />
+
+									</div>
+
+
+
+
+
+									
+									<div class="form-col">
+
+										<label>Venue</label>
+
+										<input type="text"  name="venue" id="venue"  value="<?php  echo $selected['venue']; ?>" />
+
+									</div>
+
+
+									
+									<div class="form-col">
+
+										<label>Location</label>
+
+										<input type="text"  name="location" id="location" value="<?php  echo $selected['location'];  ?>" />
+
+									</div>
+
+
+									
+									<div class="form-col">
+
+										<label>Number of Guest </label>
+
+										<input type="text"  name="guest" id="guest" value="<?php  echo $selected['guest'];  ?>" />
+
+									</div>
+
+
+									
+									<div class="form-col">
+
+										<label>Time </label>
+
+										<input type="text" name="time" id="time" value="<?php  echo $selected['time'];  ?>" />
+
+									</div>
+
+
+									<div class="form-col">
+
+										<label>Service Time</label>
+
+										<input type="text" name="slenght" id="slenght" value="<?php  echo $selected['slenght'];  ?>" />
+
+									</div>
+
+
+
+									<div class="form-full-col">
+
+										<label>Details </label>
+
+										<textarea name="det" id="det"><?php  echo $selected['det'];?> </textarea>
+
+										
+
+									</div>
+
+
+
+									
+									 <?php } ?>
+  									 
 
 									<div class="clearfix">
 
-										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:200px;color: #fff;background: #004c83;">
+										<input type="submit" />
+<input type="button" name="cancel" value="cancel" onclick="window.location.href='/event_details.php?delimage=<?php echo $selected['id']; ?>';" style="width:150px;color: #fff;background: #004c83; margin-left: 50px;"/>
 
-									</div>-->
+
+
+									</div>
+									
+
 								</div>
-
-								
 
 							</fieldset>
 
@@ -198,6 +256,7 @@ $select = mysqli_query($connection, $select);
 		</div>	
 
 				<?php include "footer.php"; ?>
+
 		
 
 		<div id="signIn-popup" class="popup">

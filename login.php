@@ -57,6 +57,9 @@ header("location: index.php");
 
     <body id="contactPage"> 
 
+
+
+
 		<p id="skipLink"><a href="#content">Skip navigation</a></p>
 
 		
@@ -79,7 +82,7 @@ header("location: index.php");
 
 						
 
-						<form action="processlogin.php" method="post">
+						<form name="form1" action="processlogin.php" method="post" onsubmit="return myFunction();">
 
 							<fieldset>
 
@@ -89,17 +92,17 @@ header("location: index.php");
 
 									<div class="form-col">
 
-										<label>Enter Email*</label>
+										<label>Enter Email* <span style="color:red" id="demo"> </span></label>
 
-										<input type="text" name="email" required="required" />
+										<input type="text" name="email" id="email" />
 
 									</div>
 
 									<div class="form-col">
 
-										<label>Password*</label>
+										<label>Password* <span style="color:red" id="demo1"> </span></label>
 
-										<input type="password" name="password" required="required" />
+										<input type="password" name="password" id="password" />
 
 									</div>
 
@@ -108,8 +111,12 @@ header("location: index.php");
 									<div class="clearfix">
 
 										<input type="submit" value="Sign In" />
+										
 
+										
 									</div>
+
+									
 
 								</div>
 
@@ -117,120 +124,21 @@ header("location: index.php");
 
 						</form>
 
+
+				
+						
+
+
 					</div>
 
 				</div>
 
 			</section>
 
+
 		</div>	
 
-				<footer id="footer">	
-
-					<div class="container">
-
-						<div class="footer-links">
-
-							<ul>
-
-								<li>
-
-									<a href="#!">About Us</a>
-
-								</li>                                                            
-
-								<li>
-
-									<a href="#!">Scholorship</a>
-
-								</li>
-
-								<li>
-
-									<a href="#!">Blog</a>
-
-								</li>
-
-								<li>
-
-									<a href="#!">Terms</a>
-
-								</li>
-
-								<li>
-
-									<a href="#!">Privacy</a>
-
-								</li>
-
-								<li>
-
-									<a href="#!">Contact Us</a>
-
-								</li> 
-
-							</ul>
-
-						</div>
-
-						<div class="social">
-
-							<ul>
-
-								<li class="">
-
-									<a href="#!"><i class="fa fa-facebook" aria-hidden="true"></i>
-
-		</a>
-
-								</li>
-
-								<li class=" ">
-
-									<a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i>
-
-		</a>
-
-								</li>
-
-								<li class=" ">
-
-									<a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i>
-
-		</a>
-
-								</li>
-
-								<li class=" ">
-
-									<a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i>
-
-		</a>
-
-								</li>
-
-								<li class=" ">
-
-									<a href="#!"><i class="fa fa-instagram" aria-hidden="true"></i>
-
-		</a>
-
-								</li>
-
-							</ul>
-
-						</div>
-
-						<div class="copyright">
-
-							<p>&copy; 2017, Eventock.com</p>
-
-						</div>
-
-					</div>
-
-				</footer>
-
+				<?php include "footer.php"; ?>
 		
 
 		<div id="signIn-popup" class="popup">
@@ -603,3 +511,36 @@ header("location: index.php");
 
 </html>
 
+<script type="text/javascript">
+
+
+function myFunction() {
+
+    var email = document.getElementById("email");
+    var password = document.getElementById("password");
+   
+  
+    var flag_submit = true;
+    
+    if (email.value == "") {
+        document.getElementById("demo").innerHTML = "Please enter email.";
+        document.form1.email.focus();
+        flag_submit = false;
+    } else {
+        document.getElementById("demo").innerHTML = "";
+        document.form1.password.focus();
+        
+    } 
+
+	if (password.value == "") {
+        document.getElementById("demo1").innerHTML = "Please enter password.";
+        flag_submit = false;
+    } else {
+        document.getElementById("demo1").innerHTML = "";
+        
+    } 
+	return flag_submit;
+} 
+
+
+</script>

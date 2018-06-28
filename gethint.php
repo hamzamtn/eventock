@@ -23,7 +23,7 @@ echo "<br />";
 while ($r = mysqli_fetch_array($res))
 { ?>
 
-<select name="sub_cat" style="width:100%; height:200px; " multiple required>
+<select name="sub_cat[]" style="width:100%; height:200px; " multiple>
 
   <option><?php echo $r['sub_cat_desc']; ?></option>
   

@@ -32,8 +32,8 @@ if(!empty($rSel)){
 					
 
 
-					$subject = 'Sucessfull activate';
-					$message = "Your email has been activated\r\n ";
+					$subject = 'Admin confirmation';
+					$message = "Your email has been send to admin for further confirmation\r\n ";
 					$message = wordwrap($message, 70, "\r\n");
 					$headers = 'From: hamzashafqat@csp.com.pk' . "\r\n" .
 					    'Reply-To: hamzashafqat@csp.com.pk' . "\r\n" .

@@ -20,7 +20,7 @@
         <div class="options-list">
             <ul style="margin-left: 500px; margin-top: 20px">
               <li>
-                <a href="signup" class="all-trans">signup</a>
+                <a href="signup1.php" class="all-trans">signup</a>
 
               </li>
               <li style="margin-left: 20px">

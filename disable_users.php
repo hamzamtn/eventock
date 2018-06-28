@@ -2,43 +2,61 @@
 session_start();
 
  require_once ('connect.php');
-  include  "session.php";
+include  "session.php";
 
-$email=$_SESSION['login_user'];
+$status="T";
  
+ 	$email=$_SESSION['login_user'];
+	$to=$email;
 
  $ReadSql = "SELECT * FROM `vender_signup` where email='".$email."'";
 
 $res = mysqli_query($connection, $ReadSql);
 	
 $r = mysqli_fetch_assoc($res);
-	if($r['user_type']=="admin"){	
-	header('location: disable_users.php');
+
+	if($r['user_type']=="vendors"){	
+	header('location: profile.php');
 	}elseif ($rw['user_type']=="user") {
 		header('location: booking_details.php');
 	}
 
 
-if (isset($_REQUEST['delimage']))
-{
- $a= $_REQUEST['delimage']; 
 
-  $del_sql = "DELETE FROM `images`  WHERE id='".$a."' ";
+if (isset($_REQUEST['enimage']))
+{
+ $a= $_REQUEST['enimage'];
+
+ $enable="enable";
+
+
+ $del_sql = "UPDATE `vender_signup` SET status='$enable'  WHERE id='".$a."' ";
   mysqli_query($connection, $del_sql);
-  //exit();
-  header('location:show_image.php');
-}
+
+
+					$subject = 'Email Activation';
+					$message = "Your email has been successfully activated.\r\n ";
+					$message = wordwrap($message, 70, "\r\n");
+					$headers = 'From: hamzashafqat@csp.com.pk' . "\r\n" .
+					    'Reply-To: hamzashafqat@csp.com.pk' . "\r\n" .
+					    'X-Mailer: PHP/' . phpversion();
+
+					mail($to, $subject, $message, $headers);
 
 
  
-$select = "SELECT * FROM `images` where email='".$email."'";
+  header('location:disable_users.php');
+}
+
+$disable="disable";
+ 
+$select = "SELECT * FROM `vender_signup` where activation_status='".$status."'  and status ='".$disable."'";
 
 
 $select = mysqli_query($connection, $select);
 
 
 ?>
-
 
 
 <!DOCTYPE html>
@@ -49,7 +67,7 @@ $select = mysqli_query($connection, $select);
 
         <meta charset="utf-8">
 
-        <title>Show Images</title>
+        <title>Users Request</title>
 
         <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on RentDeals and receive a $100 cash back rebate.">
 
@@ -69,14 +87,9 @@ $select = mysqli_query($connection, $select);
 
 		<link rel="stylesheet" href="styles/responsive.css">
 
-	
+		
 
 		<link rel="icon" href="favicon.ico">
-
-
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 		<!--[if IE]>
 
@@ -90,9 +103,14 @@ $select = mysqli_query($connection, $select);
 
 <script src="https://use.fontawesome.com/83c749bc99.js"></script>
 
+
+
+
+
     </head>
 
     <body id="contactPage"> 
+
 
 		<p id="skipLink"><a href="#content">Skip navigation</a></p>
 
@@ -114,74 +132,79 @@ $select = mysqli_query($connection, $select);
 
 						
 
-							
+						
 
-						<form action="add_images.php" method="post" enctype="multipart/form-data">
+						<form name="form1"  method="post" >
 
 							<fieldset>
-								<p class="legend">Gallery</p>
-			
-								<div class="container">
-								<div class="row">
-									<?php 
-  
-								    while($selected = mysqli_fetch_array($select)){
-								    ?>
 
-									
-									    <div class="col-md-4">
-									      <div class="thumbnail">
-									        
-									          <img src="services/<?php  echo $selected['image']; ?>">
-									          <div class="caption" style="text-align: center;">
-									            <input type="button" value="Delete" id="del" style="width:80px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
-									          </div>
-									        
-									      </div>
-									    </div>
-									
+								<p class="legend">Users Requests<span style="color:red">  <?php if(isset($_SESSION['smsgs'])){ echo $_SESSION['smsgs']; } unset($_SESSION['smsgs']); ?></span></p>
 
 
-									 <?php } ?>
+								<div class="form-col">
 
+										<label><b>User Name</b>  </label>
 
+										
 
-									 </div>
-
-
-
-
-
-									<!-- <?php 
-  
-								    while($selected = mysqli_fetch_array($select)){
-								    ?>
+									</div>
 
 									<div class="form-col">
 
+										<label><b> Email </b></label>
+
 										
-										<img  src="services/<?php  echo $selected['image'];  ?>">
-
-										<input type="button" value="Delete Image" id="del" style="width:150px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
-
-									</div><?php } ?> -->
-
-								
-
-									<div class="clearfix">
-
-										<input type="submit" name="Signup" value="Add Image" >
-										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:150px;color: #fff;background: #004c83;"/>
 
 									</div>
-									<!--
+
+								<?php 
+  
+								    while($selected = mysqli_fetch_array($select)){
+								    ?>
+
+								<div class="cols">
+
+									<div class="form-col">
+
+										<label> <?php  $fname=$selected['fname']; $lname=$selected['lname']; echo $fname." " .$lname; ?> </label>
+
+										
+
+									</div>
+
+									<div class="form-col">
+
+										<label> <?php echo $selected['email']; ?>  </label>
+
+										
+
+									</div>
+
+									
 
 									<div class="clearfix">
 
-										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:200px;color: #fff;background: #004c83;">
+										<input type="button" value="view" id="view" style="width:80px;color: #fff;background: #004c83; margin-left: 20px; float: right;" onclick="location.href='/user_edit.php?en=<?php echo $selected['id'] ?>';"/>
 
-									</div>-->
+										<input type="button" value="Accept" id="en" style="width:80px;color: #fff;background: #004c83; margin-left: 20px; float: right;" onclick="location.href='/disable_users.php?enimage=<?php echo $selected['id'] ?>';"/>
+
+										
+
+										<input type="button" value="Reject" id="dis" style="width:80px;color: #fff;background: #004c83;  float: right;" onclick="location.href='/reject.php?del=<?php echo $selected['id'] ?>';" />
+
+										
+									</div>
+
+									
+
+									
+
 								</div>
+
+								<?php } ?>
+
+
+									
 
 								
 
@@ -189,11 +212,18 @@ $select = mysqli_query($connection, $select);
 
 						</form>
 
+
+						
+
+						
+
+
 					</div>
 
 				</div>
 
 			</section>
+
 
 		</div>	
 
@@ -569,3 +599,4 @@ $select = mysqli_query($connection, $select);
     </body>
 
 </html>
+

@@ -1,46 +1,11 @@
 <?php
+
 session_start();
 
- require_once ('connect.php');
-  include  "session.php";
 
-$email=$_SESSION['login_user'];
- 
-
- $ReadSql = "SELECT * FROM `vender_signup` where email='".$email."'";
-
-$res = mysqli_query($connection, $ReadSql);
-	
-$r = mysqli_fetch_assoc($res);
-	if($r['user_type']=="admin"){	
-	header('location: disable_users.php');
-	}elseif ($rw['user_type']=="user") {
-		header('location: booking_details.php');
-	}
-
-
-if (isset($_REQUEST['delimage']))
-{
- $a= $_REQUEST['delimage']; 
-
-  $del_sql = "DELETE FROM `images`  WHERE id='".$a."' ";
-  mysqli_query($connection, $del_sql);
-  //exit();
-  header('location:show_image.php');
-}
-
-
- 
-$select = "SELECT * FROM `images` where email='".$email."'";
-
-
-$select = mysqli_query($connection, $select);
 
 
 ?>
-
-
-
 <!DOCTYPE html>
 
 <html lang="en">    
@@ -49,7 +14,7 @@ $select = mysqli_query($connection, $select);
 
         <meta charset="utf-8">
 
-        <title>Show Images</title>
+        <title>booking</title>
 
         <meta name="description" content="Search for Houston Apartments For Rent using our extensive apartment database. View photos, floor plans, maps and prices. Find Houston apartment rentals on RentDeals and receive a $100 cash back rebate.">
 
@@ -69,14 +34,9 @@ $select = mysqli_query($connection, $select);
 
 		<link rel="stylesheet" href="styles/responsive.css">
 
-	
+		
 
 		<link rel="icon" href="favicon.ico">
-
-
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 		<!--[if IE]>
 
@@ -94,6 +54,9 @@ $select = mysqli_query($connection, $select);
 
     <body id="contactPage"> 
 
+
+
+
 		<p id="skipLink"><a href="#content">Skip navigation</a></p>
 
 		
@@ -102,7 +65,13 @@ $select = mysqli_query($connection, $select);
 
 		
 
-			<?php include "login_header.php"; ?>
+			<?php $email=$_SESSION['login_user']; 
+			if(!empty($email)){
+			  include "login_header.php"; 
+			}else{
+				include "header.php"; 
+			}
+			?>
 
 			
 
@@ -114,86 +83,128 @@ $select = mysqli_query($connection, $select);
 
 						
 
-							
+						
 
-						<form action="add_images.php" method="post" enctype="multipart/form-data">
+						<form name="form1"  method="post" action="booking_process.php" onsubmit="return myFunction();">
 
 							<fieldset>
-								<p class="legend">Gallery</p>
-			
-								<div class="container">
-								<div class="row">
-									<?php 
-  
-								    while($selected = mysqli_fetch_array($select)){
-								    ?>
 
-									
-									    <div class="col-md-4">
-									      <div class="thumbnail">
-									        
-									          <img src="services/<?php  echo $selected['image']; ?>">
-									          <div class="caption" style="text-align: center;">
-									            <input type="button" value="Delete" id="del" style="width:80px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
-									          </div>
-									        
-									      </div>
-									    </div>
-									
+								<p class="legend">Booking step 2 <span style="color:red"><?php if(isset($_SESSION['fmsg1'])){ echo $_SESSION['fmsg1']; } unset($_SESSION['fmsg1']); ?></span></p>
 
-
-									 <?php } ?>
-
-
-
-									 </div>
-
-
-
-
-
-									<!-- <?php 
-  
-								    while($selected = mysqli_fetch_array($select)){
-								    ?>
+								<div class="cols">
 
 									<div class="form-col">
 
-										
-										<img  src="services/<?php  echo $selected['image'];  ?>">
+										<label>EVENT VENUE <span style="color:red" id="demo"> </span></label>
 
-										<input type="button" value="Delete Image" id="del" style="width:150px;color: #fff;background: #004c83;" onclick="location.href='/show_image.php?delimage=<?php echo $selected['id'] ?>';" />
-
-									</div><?php } ?> -->
-
-								
-
-									<div class="clearfix">
-
-										<input type="submit" name="Signup" value="Add Image" >
-										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:150px;color: #fff;background: #004c83;"/>
+										<input type="text" name="venue" id="venue" />
 
 									</div>
-									<!--
 
-									<div class="clearfix">
 
-										<input type="button" name="Back" value="Back" onclick="location.href='/profile.php';" style="width:200px;color: #fff;background: #004c83;">
 
-									</div>-->
-								</div>
+									<div class="form-col">
+
+										<label>EVENT LOCATION <span style="color:red" id="demo1"> </span></label>
+
+										<input type="text" name="location" id="location" />
+
+									</div>
+
+									<div class="form-col">
+
+										<label>NUMBER OF GUESTS<span style="color:red" id="demo2"> </span></label>
+
+										<select name="guest" id="guest" style="width: 100%;height: 50px"  >
+										      <option value="0">Please select</option>
+										     
+										      <option>less than 25</option>
+										      <option>25-49</option>
+										      <option>50-99</option>
+										      <option>199-149</option>
+										      <option>150-199</option>
+										      <option>200-249</option>
+										    </select>
+
+									</div>
+
+									
+
+									<div class="form-col">
+
+										<label>VENDOR START TIME<span style="color:red" id="demo3"> </span></label>
+
+										<select name="time" id="time" style="width: 100%;height: 50px"  >
+										      <option value="0">Please select </option>
+										     
+										      <option>12pm</option>
+										      <option>12.30pm</option>
+										      <option>1.00pm</option>
+										      <option>1.30pm</option>
+										      <option>2.00pm</option>
+										      <option>2.30pm</option>
+										    </select>
+
+									</div>
+									<div class="form-col">
+
+										<label>VENDOR SERVICE LENGTH <span style="color:red" id="demo4"> </span></label>
+
+										<select name="slenght" id="slenght" style="width: 100%;height: 50px"  >
+										      <option value="0">Please select </option>
+										     
+										      <option>15min</option>
+										      <option>30min</option>
+										      <option>45min</option>
+										      <option>1hr</option>
+										      <option>1.30hr</option>
+										      <option>2.00hr</option>
+										    </select>
+
+									</div>
+									<div class="form-full-col">
+
+										<label>Event details <span style="color:red" id="demo5"> </span></label>
+
+										<textarea name="det" id="det"></textarea>
+
+									</div>
+
 
 								
+
+									
+
+									<div class="clearfix">
+										
+
+										<input type="submit" value="continue" name="continue" id="continue" />
+
+										<input type="button" name="Back" value="Back" onclick="location.href='/book1.php';" style="width:150px;color: #fff;background: #004c83; margin-left: 50px"/>
+										
+
+										
+									</div>
+
+									
+
+								</div>
 
 							</fieldset>
 
 						</form>
+
+
+				
+						
+
 
 					</div>
 
 				</div>
 
 			</section>
+
 
 		</div>	
 
@@ -569,3 +580,69 @@ $select = mysqli_query($connection, $select);
     </body>
 
 </html>
+
+<script type="text/javascript">
+
+
+function myFunction() {
+
+    var venue = document.getElementById("venue");
+    var location = document.getElementById("location");
+    var guest = document.getElementById("guest");
+    var time = document.getElementById("time");
+    var slenght = document.getElementById("slenght");
+    var det = document.getElementById("det");
+   
+  
+    var flag_submit = true;
+    
+    if (venue.value == "") {
+        document.getElementById("demo").innerHTML = "Please enter venue.";
+        document.form1.venue.focus();
+        flag_submit = false;
+    } else {
+        document.getElementById("demo").innerHTML = "";
+        document.form1.location.focus();
+        
+    } 
+
+	if (location.value == "") {
+        document.getElementById("demo1").innerHTML = "Please enter location.";
+        flag_submit = false;
+    } else {
+        document.getElementById("demo1").innerHTML = "";
+        document.form1.guest.focus();
+    } 
+    if (guest.value == "0") {
+        document.getElementById("demo2").innerHTML = "Please select guest.";
+        flag_submit = false;
+    } else {
+        document.getElementById("demo2").innerHTML = "";
+        document.form1.time.focus();
+    } 
+    if (time.value == "0") {
+        document.getElementById("demo3").innerHTML = "Please seelct time.";
+        flag_submit = false;
+    } else {
+        document.getElementById("demo3").innerHTML = "";
+        document.form1.slenght.focus();
+    } 
+    if (slenght.value == "0") {
+        document.getElementById("demo4").innerHTML = "Please select length.";
+        flag_submit = false;
+    } else {
+        document.getElementById("demo4").innerHTML = "";
+        document.form1.det.focus();
+    } 
+    if (det.value == "") {
+        document.getElementById("demo5").innerHTML = "Please enter details.";
+        flag_submit = false;
+    } else {
+        document.getElementById("demo5").innerHTML = "";
+        
+    } 
+	return flag_submit;
+} 
+
+
+</script>
